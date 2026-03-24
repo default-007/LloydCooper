@@ -9,8 +9,8 @@
     :root {
       --black: #070c0a;
       --white: #edf2ef;
-      --accent: #2e7d52;
-      --accent2: #e07b2a;
+      --accent: #e07b2a; 
+      --accent2: #2e7d52;
       --card: #0d1410;
       --muted: rgba(237,242,239,0.45);
       --border: rgba(237,242,239,0.07);
@@ -126,17 +126,80 @@
     .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px,8vw,88px); color: var(--accent); line-height: 1; }
     .stat-lbl { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
 
-    /* ── SERVICE CARDS ── */
+    /* ── SCROLL PROGRESS BAR ── */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      z-index: 9999; pointer-events: none;
+      transition: width 0.05s linear;
+    }
+
+    /* ── SERVICE CARDS — 3D FLIP ── */
     .cards-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: clamp(40px,6vw,64px); }
     @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2,1fr); } }
     @media (max-width: 560px) { .cards-grid { grid-template-columns: 1fr; } }
-    .card { background: var(--card); border: 1px solid var(--border); padding: clamp(28px,4vw,48px) clamp(20px,3vw,40px); position: relative; overflow: hidden; transition: border-color 0.3s; }
-    .card::before { content:''; position: absolute; top: 0; left: 0; width: 2px; height: 0; background: var(--accent); transition: height 0.5s ease; }
-    .card:hover { border-color: rgba(46,125,82,0.2); }
-    .card:hover::before { height: 100%; }
+
+    .flip-card { perspective: 1000px; min-height: 260px; cursor: pointer; }
+    .flip-card-inner {
+      position: relative; width: 100%; height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+      min-height: 260px;
+    }
+    .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+
+    .flip-front, .flip-back {
+      position: absolute; inset: 0;
+      backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: clamp(28px,4vw,48px) clamp(20px,3vw,40px);
+      display: flex; flex-direction: column; justify-content: flex-start;
+    }
+    .flip-front::before {
+      content:''; position: absolute; top: 0; left: 0;
+      width: 2px; height: 0; background: var(--accent);
+      transition: height 0.5s ease;
+    }
+    .flip-card:hover .flip-front::before { height: 100%; }
+
+    .flip-back {
+      transform: rotateY(180deg);
+      background: var(--accent);
+      border-color: var(--accent);
+      justify-content: center;
+      align-items: flex-start;
+    }
+    .flip-back-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 3px;
+      text-transform: uppercase; color: rgba(237,242,239,0.6);
+      margin-bottom: 16px;
+    }
+    .flip-back-text {
+      font-size: 14px; color: var(--white); line-height: 1.8; font-weight: 300;
+    }
+    .flip-back-cta {
+      margin-top: 24px; font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase; color: var(--white);
+      border-bottom: 1px solid rgba(237,242,239,0.4); padding-bottom: 2px;
+      display: inline-block; text-decoration: none;
+    }
     .card-icon { font-size: 28px; margin-bottom: 20px; display: block; }
     .card-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px,2.5vw,28px); letter-spacing: 1px; margin-bottom: 14px; }
     .card-desc { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+    /* ── TILT CARDS (testimonials + location boxes) ── */
+    .testi-card { transform-style: preserve-3d; will-change: transform; transition: box-shadow 0.3s; }
+    .testi-card:hover { box-shadow: 0 20px 60px rgba(46,125,82,0.12); }
+    .location-box { transform-style: preserve-3d; will-change: transform; }
+
+    /* ── MAGNETIC BUTTONS ── */
+    .magnetic { display: inline-block; }
+    .magnetic-inner { display: inline-block; transition: transform 0.3s cubic-bezier(0.23,1,0.32,1); }
+
+    /* ── SLIDE-IN LOCATION BOXES ── */
+    .location-box { transition: border-color 0.3s, transform 0.4s ease, box-shadow 0.4s ease; }
+    .location-box:hover { transform: translateY(-6px) !important; box-shadow: 0 16px 40px rgba(46,125,82,0.1); }
 
     /* ── HORIZONTAL PIN ── */
     #pin-section { background: #050a07; position: relative; z-index: 1; overflow: hidden; }
@@ -211,6 +274,7 @@
 </head>
 <body>
 
+<div id="progress-bar"></div>
 <div id="cur"></div>
 <div id="cur-ring"></div>
 
@@ -291,36 +355,97 @@
     <h2 class="section-title">OUR <span style="color:var(--accent)">SERVICES</span></h2>
   </div>
   <div class="cards-grid">
-    <div class="card">
-      <span class="card-icon">📊</span>
-      <h3 class="card-title">Audit, Assurance & Advisory</h3>
-      <p class="card-desc">Our audit, assurance and advisory services relating to financial reporting and risk management give your businesses the comfort they need to focus on growth and achievement of business objectives.</p>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="card-icon">📊</span>
+          <h3 class="card-title">Audit, Assurance & Advisory</h3>
+          <p class="card-desc">Financial reporting and risk management services that give your business the comfort to focus on growth.</p>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-label">What we deliver</div>
+          <p class="flip-back-text">External & internal audits, risk assessments, compliance reviews, and assurance reporting — tailored to the East African regulatory environment.</p>
+          <a href="#cta" class="flip-back-cta">Engage Us →</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <span class="card-icon">📈</span>
-      <h3 class="card-title">Management Consulting</h3>
-      <p class="card-desc">We help you boost business performance by developing strategies to achieve sustainable competitive advantage — improving the performance of your organisation from the ground up.</p>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="card-icon">📈</span>
+          <h3 class="card-title">Management Consulting</h3>
+          <p class="card-desc">Strategies to achieve sustainable competitive advantage and improve your organisation from the ground up.</p>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-label">What we deliver</div>
+          <p class="flip-back-text">Business transformation, operational efficiency, market entry strategy, and performance management frameworks built for scale.</p>
+          <a href="#cta" class="flip-back-cta">Engage Us →</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <span class="card-icon">💻</span>
-      <h3 class="card-title">Enterprise Technology</h3>
-      <p class="card-desc">Corporate strategy both guides and is influenced by technology strategy. We help you determine the capabilities, systems and people you need to succeed in a digital-first world.</p>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="card-icon">💻</span>
+          <h3 class="card-title">Enterprise Technology</h3>
+          <p class="card-desc">We help you determine the capabilities, systems and people you need to succeed in a digital-first world.</p>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-label">What we deliver</div>
+          <p class="flip-back-text">Digital transformation roadmaps, ERP implementation, IT governance, and technology due diligence for acquisitions and mergers.</p>
+          <a href="#cta" class="flip-back-cta">Engage Us →</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <span class="card-icon">👥</span>
-      <h3 class="card-title">Human Resource Management</h3>
-      <p class="card-desc">We optimise talent management for the success of your business, helping clients boost performance through strategies that achieve a sustainable competitive advantage in their markets.</p>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="card-icon">👥</span>
+          <h3 class="card-title">Human Resource Management</h3>
+          <p class="card-desc">We optimise talent management through strategies that achieve a sustainable competitive advantage.</p>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-label">What we deliver</div>
+          <p class="flip-back-text">HR audits, policy design, payroll advisory, talent acquisition frameworks, and organisational restructuring support.</p>
+          <a href="#cta" class="flip-back-cta">Engage Us →</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <span class="card-icon">🧾</span>
-      <h3 class="card-title">Tax Compliance</h3>
-      <p class="card-desc">We help you grasp the complexities of indirect and direct taxes, keeping you informed of responsibilities and liabilities — and any legislative changes that impact your operations.</p>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="card-icon">🧾</span>
+          <h3 class="card-title">Tax Compliance</h3>
+          <p class="card-desc">We help you navigate indirect and direct taxes, keeping you informed of responsibilities and liabilities.</p>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-label">What we deliver</div>
+          <p class="flip-back-text">Corporate tax planning, VAT advisory, transfer pricing, KRA/URA/RRA compliance, and tax dispute resolution services.</p>
+          <a href="#cta" class="flip-back-cta">Engage Us →</a>
+        </div>
+      </div>
     </div>
-    <div class="card">
-      <span class="card-icon">🔗</span>
-      <h3 class="card-title">Business Services & Outsourcing</h3>
-      <p class="card-desc">Lloyd BSO provides a full range of finance, accounting and business services to support your growth and help manage changing regulatory and reporting requirements across global markets.</p>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="flip-front">
+          <span class="card-icon">🔗</span>
+          <h3 class="card-title">Business Services & Outsourcing</h3>
+          <p class="card-desc">A full range of finance and accounting services to support growth and manage regulatory requirements.</p>
+        </div>
+        <div class="flip-back">
+          <div class="flip-back-label">What we deliver</div>
+          <p class="flip-back-text">Bookkeeping, management accounts, payroll processing, CFO advisory, and back-office outsourcing for growing organisations.</p>
+          <a href="#cta" class="flip-back-cta">Engage Us →</a>
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -433,7 +558,7 @@
 <section id="cta">
   <div class="cta-glow"></div>
   <h2 class="cta-title">LET'S MAKE<br><span>AN IMPACT</span><br>TOGETHER</h2>
-  <a href="mailto:info@lloydcooper.com" class="cta-btn">Start a Conversation</a>
+  <a href="/cdn-cgi/l/email-protection#234a4d454c634f4f4c5a47404c4c5346510d404c4e" class="cta-btn">Start a Conversation</a>
 </section>
 
 <!-- FOOTER -->
@@ -464,7 +589,7 @@
     </div>
     <div class="footer-col">
       <h4>Contact</h4>
-      <a href="mailto:info@lloydcooper.com">info@lloydcooper.com</a>
+      <a href="/cdn-cgi/l/email-protection#87eee9e1e8c7ebebe8fee3e4e8e8f7e2f5a9e4e8ea"><span class="__cf_email__" data-cfemail="543d3a323b1438383b2d30373b3b2431267a373b39">[email&#160;protected]</span></a>
       <a href="tel:+254000000000">+254 000 000 000</a>
     </div>
   </div>
@@ -475,7 +600,7 @@
 </footer>
 
 <!-- CDNs -->
-<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
@@ -573,7 +698,6 @@ const revealGroups = [
   { sel: '.section-label', from: { opacity: 0, y: 16 } },
   { sel: '.section-title, .panel-title, .cta-title', from: { opacity: 0, y: 55 } },
   { sel: '.stat-box, .cta-btn', from: { opacity: 0, scale: 0.88 } },
-  { sel: '.card', from: { opacity: 0, y: 50 } },
   { sel: '.location-box', from: { opacity: 0, y: 30 } },
   { sel: '.testi-card:nth-child(1)', from: { opacity: 0, x: -50 } },
   { sel: '.testi-card:nth-child(2)', from: { opacity: 0, y: 50 } },
@@ -630,14 +754,133 @@ gsap.set('.parallax-text h2', { opacity: 0, y: 55 });
 ScrollTrigger.create({
   trigger: '#parallax-band', start: 'top 75%',
   onEnter:     () => gsap.to('.parallax-text h2', { opacity: 1, y: 0,  duration: 0.85, ease: 'power3.out' }),
-  onLeaveBack: () => gsap.to('.parallax-text h2', { opacity: 0, y: 55, duration: 0.4,  ease: 'power2.in'  }),
+  onLeaveBack: () => gsap.to('.parallax-text h2', { opacity: 0, y: 55, duration: 0.5 }),
 });
-
-/* ── 11. PARALLAX BAND ── */
 gsap.to('#parallax-inner', {
   yPercent: 22, ease: 'none',
   scrollTrigger: { trigger: '#parallax-band', start: 'top bottom', end: 'bottom top', scrub: true }
 });
+
+/* ── 11. SCROLL PROGRESS BAR ── */
+const progressBar = document.getElementById('progress-bar');
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total    = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (scrolled / total * 100) + '%';
+}, { passive: true });
+
+/* ── 12. FLIP CARD SCROLL REVEAL (stagger slide-up) ── */
+gsap.utils.toArray('.flip-card').forEach((card, i) => {
+  gsap.from(card, {
+    opacity: 0,
+    y: 70,
+    rotateX: 8,
+    duration: 0.8,
+    ease: 'power3.out',
+    delay: (i % 3) * 0.13,
+    scrollTrigger: { trigger: card, start: 'top 88%' }
+  });
+});
+
+/* ── 13. LOCATION BOXES — cascade slide-in from alternating sides ── */
+gsap.utils.toArray('.location-box').forEach((box, i) => {
+  gsap.from(box, {
+    opacity: 0,
+    x: i % 2 === 0 ? -60 : 60,
+    y: 20,
+    duration: 0.75,
+    ease: 'power3.out',
+    delay: i * 0.1,
+    scrollTrigger: { trigger: box, start: 'top 90%' }
+  });
+});
+
+/* ── 14. TESTIMONIAL 3D TILT ON MOUSE MOVE ── */
+if (window.matchMedia('(pointer:fine)').matches) {
+  document.querySelectorAll('.testi-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const cx   = rect.left + rect.width  / 2;
+      const cy   = rect.top  + rect.height / 2;
+      const dx   = (e.clientX - cx) / (rect.width  / 2);
+      const dy   = (e.clientY - cy) / (rect.height / 2);
+      gsap.to(card, {
+        rotateY:  dx * 8,
+        rotateX: -dy * 8,
+        scale: 1.02,
+        duration: 0.4,
+        ease: 'power2.out',
+        transformPerspective: 800,
+      });
+    });
+    card.addEventListener('mouseleave', () => {
+      gsap.to(card, { rotateY: 0, rotateX: 0, scale: 1, duration: 0.6, ease: 'elastic.out(1,0.6)' });
+    });
+  });
+}
+
+/* ── 15. STAT BOX TILT ON HOVER ── */
+if (window.matchMedia('(pointer:fine)').matches) {
+  document.querySelectorAll('.stat-box').forEach(box => {
+    box.style.transition = 'border-color 0.3s';
+    box.addEventListener('mousemove', e => {
+      const rect = box.getBoundingClientRect();
+      const dx = (e.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
+      const dy = (e.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
+      gsap.to(box, { rotateY: dx * 6, rotateX: -dy * 6, scale: 1.03, duration: 0.3, ease: 'power2.out', transformPerspective: 600 });
+    });
+    box.addEventListener('mouseleave', () => {
+      gsap.to(box, { rotateY: 0, rotateX: 0, scale: 1, duration: 0.5, ease: 'elastic.out(1,0.6)' });
+    });
+  });
+}
+
+/* ── 16. MAGNETIC BUTTONS (hero CTA + main CTA) ── */
+if (window.matchMedia('(pointer:fine)').matches) {
+  document.querySelectorAll('.hero-cta, .cta-btn').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const rect = btn.getBoundingClientRect();
+      const dx = e.clientX - rect.left - rect.width  / 2;
+      const dy = e.clientY - rect.top  - rect.height / 2;
+      gsap.to(btn, { x: dx * 0.35, y: dy * 0.35, duration: 0.4, ease: 'power2.out' });
+    });
+    btn.addEventListener('mouseleave', () => {
+      gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' });
+    });
+  });
+}
+
+/* ── 17. PANEL TITLE STAGGER REVEAL ON SCRUB ── */
+gsap.utils.toArray('.panel').forEach(panel => {
+  const title = panel.querySelector('.panel-title');
+  const bar   = panel.querySelector('.panel-bar');
+  const desc  = panel.querySelector('.panel-desc');
+  gsap.set([title, bar, desc], { opacity: 0, y: 30 });
+  ScrollTrigger.create({
+    trigger: panel,
+    containerAnimation: gsap.to(row, { x: -(row.scrollWidth - window.innerWidth), ease: 'none' }),
+    start: 'left 70%',
+    onEnter: () => gsap.to([bar, title, desc], { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out' }),
+    onLeaveBack: () => gsap.set([bar, title, desc], { opacity: 0, y: 30 }),
+  });
+});
+
+/* ── 18. FOOTER LINK HOVER — slide underline ── */
+document.querySelectorAll('.footer-col a').forEach(link => {
+  link.style.position   = 'relative';
+  link.style.paddingBottom = '2px';
+  const line = document.createElement('span');
+  Object.assign(line.style, {
+    position: 'absolute', bottom: '0', left: '0',
+    width: '0%', height: '1px',
+    background: 'var(--accent)', transition: 'width 0.3s ease',
+    display: 'block',
+  });
+  link.appendChild(line);
+  link.addEventListener('mouseenter', () => { line.style.width = '100%'; });
+  link.addEventListener('mouseleave', () => { line.style.width = '0%'; });
+});
+
 </script>
 </body>
 </html>
