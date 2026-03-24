@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lloyd Cooper Group</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --black: #070c0a;
+      --white: #edf2ef;
+      --accent: #2e7d52;
+      --accent2: #e07b2a;
+      --card: #0d1410;
+      --muted: rgba(237,242,239,0.45);
+      --border: rgba(237,242,239,0.07);
+      --pad-x: clamp(20px, 5vw, 80px);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: auto; }
+    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; inset: 0 0 auto 0; z-index: 200;
+      padding: 20px var(--pad-x);
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled { background: rgba(7,12,10,0.92); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: clamp(20px,2.5vw,26px); letter-spacing: 3px; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+    .nav-logo-mark { width: 32px; height: 32px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 16px; font-family: 'Bebas Neue', sans-serif; color: #fff; letter-spacing: 0; flex-shrink: 0; }
+    .nav-links { display: flex; gap: clamp(14px,3vw,40px); }
+    .nav-links a { color: var(--white); text-decoration: none; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 1; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100svh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+      padding: 100px var(--pad-x) 80px;
+      position: relative; overflow: hidden;
+    }
+
+    /* ── HERO CAROUSEL ── */
+    .hero-slides { position: absolute; inset: 0; z-index: 0; }
+    .hero-slide {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0; transition: opacity 1.2s ease;
+    }
+    .hero-slide.active { opacity: 1; }
+    .hero-slide::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(7,12,10,0.6) 0%, rgba(7,12,10,0.82) 100%);
+    }
+    .hero-dots {
+      position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+      display: flex; gap: 8px; z-index: 10;
+    }
+    .hero-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--white); opacity: 0.25; cursor: pointer;
+      transition: opacity 0.3s, transform 0.3s, background 0.3s;
+    }
+    .hero-dot.active { opacity: 1; transform: scale(1.4); background: var(--accent); }
+
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 1;
+      background-image: linear-gradient(rgba(46,125,82,0.04) 1px,transparent 1px), linear-gradient(90deg,rgba(46,125,82,0.04) 1px,transparent 1px);
+      background-size: 60px 60px; pointer-events: none;
+    }
+    .hero-content { position: relative; z-index: 2; }
+    .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; color: var(--accent2); margin-bottom: 24px; }
+    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px,13vw,150px); line-height: 0.92; letter-spacing: 2px; }
+    .hero-title .line { display: block; overflow: hidden; }
+    .hero-title .word { display: inline-block; }
+
+    .typewriter-wrap { display: inline-block; }
+    .typewriter-text { color: var(--accent); }
+    .typewriter-cursor {
+      display: inline-block; width: 4px; height: 0.8em;
+      background: var(--accent); margin-left: 3px;
+      vertical-align: middle;
+      animation: blink 0.75s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero-sub { font-size: clamp(14px,1.5vw,16px); font-weight: 300; color: var(--muted); max-width: 520px; margin: 28px auto 0; line-height: 1.85; }
+    .hero-cta {
+      display: inline-block; margin-top: 44px; padding: 15px clamp(28px,5vw,52px);
+      border: 1.5px solid var(--accent); color: var(--accent);
+      font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; text-decoration: none;
+      position: relative; overflow: hidden; transition: color 0.3s;
+    }
+    .hero-cta::after { content:''; position: absolute; inset: 0; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease; z-index: -1; }
+    .hero-cta:hover { color: var(--white); }
+    .hero-cta:hover::after { transform: scaleX(1); }
+    .scroll-hint { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.3; z-index: 10; }
+    .scroll-hint-line { width: 1px; height: 44px; background: var(--white); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse {
+      0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
+      50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
+      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap { padding: 40px 0; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .marquee-track { display: flex; gap: 60px; white-space: nowrap; animation: marquee 28s linear infinite; will-change: transform; }
+    .marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px,6vw,56px); letter-spacing: 3px; opacity: 0.08; flex-shrink: 0; user-select: none; }
+    .marquee-item.hi { color: var(--accent); opacity: 0.2; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── SHARED ── */
+    .section { padding: clamp(80px,12vw,160px) var(--pad-x); }
+    .section-label { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--accent2); margin-bottom: 16px; }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px,7vw,80px); letter-spacing: 1px; line-height: 1; }
+
+    /* ── STATS ── */
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; margin-top: clamp(40px,6vw,80px); }
+    @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 400px) { .stats-grid { grid-template-columns: 1fr; } }
+    .stat-box { border: 1px solid var(--border); padding: clamp(28px,4vw,48px) clamp(16px,3vw,28px); text-align: center; }
+    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px,8vw,88px); color: var(--accent); line-height: 1; }
+    .stat-lbl { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+
+    /* ── SERVICE CARDS ── */
+    .cards-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: clamp(40px,6vw,64px); }
+    @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 560px) { .cards-grid { grid-template-columns: 1fr; } }
+    .card { background: var(--card); border: 1px solid var(--border); padding: clamp(28px,4vw,48px) clamp(20px,3vw,40px); position: relative; overflow: hidden; transition: border-color 0.3s; }
+    .card::before { content:''; position: absolute; top: 0; left: 0; width: 2px; height: 0; background: var(--accent); transition: height 0.5s ease; }
+    .card:hover { border-color: rgba(46,125,82,0.2); }
+    .card:hover::before { height: 100%; }
+    .card-icon { font-size: 28px; margin-bottom: 20px; display: block; }
+    .card-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px,2.5vw,28px); letter-spacing: 1px; margin-bottom: 14px; }
+    .card-desc { font-size: 14px; color: var(--muted); line-height: 1.75; }
+
+    /* ── HORIZONTAL PIN ── */
+    #pin-section { background: #050a07; position: relative; z-index: 1; overflow: hidden; }
+    .pin-sticky { height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+    .pin-label { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--accent2); padding: 0 var(--pad-x); margin-bottom: clamp(24px,4vw,48px); }
+    .panels-row { display: flex; width: 400vw; }
+    .panel { width: 100vw; flex-shrink: 0; padding: 0 var(--pad-x); display: flex; align-items: center; position: relative; }
+    .panel-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(100px,18vw,220px); color: rgba(46,125,82,0.05); position: absolute; right: var(--pad-x); bottom: -20px; line-height: 1; user-select: none; pointer-events: none; }
+    .panel-inner { max-width: min(560px,80vw); }
+    .panel-bar { width: 40px; height: 2px; background: var(--accent); margin-bottom: 20px; }
+    .panel-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,9vw,80px); line-height: 1; letter-spacing: 1px; margin-bottom: 18px; }
+    .panel-desc { font-size: clamp(13px,1.5vw,15px); color: var(--muted); line-height: 1.8; }
+
+    /* ── PARALLAX BAND ── */
+    #parallax-band { height: clamp(280px,50vw,560px); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+    .parallax-inner { position: absolute; inset: -25% 0; background: radial-gradient(ellipse at 25% 50%, rgba(46,125,82,0.08) 0%, transparent 55%), radial-gradient(ellipse at 75% 50%, rgba(224,123,42,0.05) 0%, transparent 50%), var(--black); }
+    .parallax-text { position: relative; text-align: center; z-index: 2; padding: 0 var(--pad-x); }
+    .parallax-text h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,11vw,130px); line-height: 0.95; letter-spacing: 3px; }
+    .parallax-text h2 span { color: var(--accent); }
+
+    /* ── TESTIMONIALS ── */
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: clamp(40px,6vw,64px); }
+    @media (max-width: 900px) { .testi-grid { grid-template-columns: 1fr; } }
+    .testi-card { background: var(--card); border: 1px solid var(--border); padding: clamp(28px,4vw,48px); }
+    .testi-quote { font-size: 14px; font-weight: 300; line-height: 1.85; color: rgba(237,242,239,0.65); margin-bottom: 28px; }
+    .testi-quote::before { content:'"'; font-family: 'Bebas Neue', sans-serif; font-size: 64px; color: var(--accent); opacity: 0.25; display: block; line-height: 0.7; margin-bottom: 14px; }
+    .testi-name { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
+    .testi-role { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+    /* ── LOCATIONS ── */
+    #locations { padding: clamp(80px,12vw,160px) var(--pad-x); background: #0a0f0c; }
+    .locations-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; margin-top: clamp(40px,6vw,64px); }
+    @media (max-width: 768px) { .locations-grid { grid-template-columns: repeat(2,1fr); } }
+    .location-box { border: 1px solid var(--border); padding: clamp(24px,3vw,40px); position: relative; overflow: hidden; transition: border-color 0.3s; }
+    .location-box:hover { border-color: rgba(46,125,82,0.25); }
+    .location-box::after { content:''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
+    .location-box:hover::after { transform: scaleX(1); }
+    .location-flag { font-size: 24px; margin-bottom: 14px; display: block; }
+    .location-city { font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px,3vw,32px); letter-spacing: 1px; margin-bottom: 6px; }
+    .location-country { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
+    .location-hq { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent2); margin-top: 8px; font-weight: 600; }
+
+    /* ── CTA ── */
+    #cta { padding: clamp(100px,16vw,220px) var(--pad-x); text-align: center; position: relative; overflow: hidden; }
+    .cta-glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, rgba(46,125,82,0.06) 0%, transparent 65%); pointer-events: none; }
+    .cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px,12vw,140px); line-height: 0.93; letter-spacing: 2px; position: relative; }
+    .cta-title span { color: var(--accent); }
+    .cta-title span.orange { color: var(--accent2); }
+    .cta-btn { position: relative; display: inline-block; margin-top: clamp(36px,5vw,60px); padding: 18px clamp(36px,6vw,72px); background: var(--accent); color: var(--white); font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; transition: transform 0.25s, box-shadow 0.25s, background 0.3s; }
+    .cta-btn:hover { background: var(--accent2); color: var(--white); transform: translateY(-4px); box-shadow: 0 24px 60px rgba(224,123,42,0.2); }
+
+    /* ── FOOTER ── */
+    footer { padding: 48px var(--pad-x) 36px; border-top: 1px solid var(--border); }
+    .footer-top { display: flex; flex-wrap: wrap; gap: 48px; justify-content: space-between; margin-bottom: 40px; }
+    .footer-brand { max-width: 300px; }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 3px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .footer-logo-mark { width: 28px; height: 28px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 14px; font-family: 'Bebas Neue', sans-serif; color: #fff; letter-spacing: 0; flex-shrink: 0; }
+    .footer-tagline { font-size: 13px; color: var(--muted); line-height: 1.7; }
+    .footer-col h4 { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+    .footer-col a { display: block; font-size: 13px; color: var(--muted); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--white); }
+    .footer-bottom { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 24px; }
+    .foot-copy { font-size: 12px; opacity: 0.28; }
+    .foot-tagline { font-size: 12px; color: var(--accent); opacity: 0.6; font-style: italic; }
+
+    /* ── CURSOR ── */
+    @media (pointer: fine) {
+      #cur      { width:10px; height:10px; background:var(--accent); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
+      #cur-ring { width:32px; height:32px; border:1px solid rgba(46,125,82,0.5); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-mark">LC</div>
+    LLOYD COOPER GROUP
+  </a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#locations">Offices</a>
+    <a href="#cta">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-slides">
+    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1600&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&q=80')"></div>
+    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1600&q=80')"></div>
+  </div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Audit · Tax · Advisory · East Africa</p>
+    <h1 class="hero-title">
+      <span class="line"><span class="word">IMPACT</span></span>
+      <span class="line">
+        <span class="word">THAT&nbsp;</span><span class="word typewriter-wrap"><span class="typewriter-text" id="typewriter"></span><span class="typewriter-cursor"></span></span>
+      </span>
+    </h1>
+    <p class="hero-sub">A leading independent audit, tax and accounting firm driven by one mantra — to make an impact that matters in the most sustainable way.</p>
+    <a href="#services" class="hero-cta">Our Services</a>
+  </div>
+
+  <div class="hero-dots" id="hero-dots"></div>
+  <div class="scroll-hint"><span>Scroll</span><div class="scroll-hint-line"></div></div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">AUDIT</span><span class="marquee-item hi">✦</span>
+    <span class="marquee-item">TAX</span><span class="marquee-item hi">✦</span>
+    <span class="marquee-item">ADVISORY</span><span class="marquee-item hi">✦</span>
+    <span class="marquee-item">ASSURANCE</span><span class="marquee-item hi">✦</span>
+    <span class="marquee-item">COMPLIANCE</span><span class="marquee-item hi">✦</span>
+    <span class="marquee-item">AUDIT</span><span class="marquee-item hi">✦</span>
+    <span class="marquee-item">TAX</span><span class="marquee-item hi">✦</span>
+    <span class="marquee-item">ADVISORY</span><span class="marquee-item hi">✦</span>
+    <span class="marquee-item">ASSURANCE</span><span class="marquee-item hi">✦</span>
+    <span class="marquee-item">COMPLIANCE</span><span class="marquee-item hi">✦</span>
+  </div>
+</div>
+
+<!-- ABOUT / STATS -->
+<section class="section" id="about">
+  <div style="max-width:640px">
+    <p class="section-label">By The Numbers</p>
+    <h2 class="section-title">TRUSTED <span style="color:var(--accent)">ACROSS</span><br>EAST AFRICA</h2>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="stat-num"><span class="counter" data-to="10">0</span>+</div><div class="stat-lbl">Years in Operation</div></div>
+    <div class="stat-box"><div class="stat-num"><span class="counter" data-to="4">0</span></div><div class="stat-lbl">Countries</div></div>
+    <div class="stat-box"><div class="stat-num"><span class="counter" data-to="6">0</span></div><div class="stat-lbl">Service Practices</div></div>
+    <div class="stat-box"><div class="stat-num"><span class="counter" data-to="98">0</span>%</div><div class="stat-lbl">Client Satisfaction</div></div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services" style="background:#0a0f0c">
+  <div style="text-align:center;margin-bottom:clamp(40px,6vw,64px)">
+    <p class="section-label">What We Do</p>
+    <h2 class="section-title">OUR <span style="color:var(--accent)">SERVICES</span></h2>
+  </div>
+  <div class="cards-grid">
+    <div class="card">
+      <span class="card-icon">📊</span>
+      <h3 class="card-title">Audit, Assurance & Advisory</h3>
+      <p class="card-desc">Our audit, assurance and advisory services relating to financial reporting and risk management give your businesses the comfort they need to focus on growth and achievement of business objectives.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">📈</span>
+      <h3 class="card-title">Management Consulting</h3>
+      <p class="card-desc">We help you boost business performance by developing strategies to achieve sustainable competitive advantage — improving the performance of your organisation from the ground up.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">💻</span>
+      <h3 class="card-title">Enterprise Technology</h3>
+      <p class="card-desc">Corporate strategy both guides and is influenced by technology strategy. We help you determine the capabilities, systems and people you need to succeed in a digital-first world.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">👥</span>
+      <h3 class="card-title">Human Resource Management</h3>
+      <p class="card-desc">We optimise talent management for the success of your business, helping clients boost performance through strategies that achieve a sustainable competitive advantage in their markets.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🧾</span>
+      <h3 class="card-title">Tax Compliance</h3>
+      <p class="card-desc">We help you grasp the complexities of indirect and direct taxes, keeping you informed of responsibilities and liabilities — and any legislative changes that impact your operations.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🔗</span>
+      <h3 class="card-title">Business Services & Outsourcing</h3>
+      <p class="card-desc">Lloyd BSO provides a full range of finance, accounting and business services to support your growth and help manage changing regulatory and reporting requirements across global markets.</p>
+    </div>
+  </div>
+</section>
+
+<!-- OUR APPROACH – HORIZONTAL PIN -->
+<div id="pin-section">
+  <div class="pin-sticky">
+    <p class="pin-label">Our Approach</p>
+    <div class="panels-row" id="panels-row">
+      <div class="panel">
+        <span class="panel-num">01</span>
+        <div class="panel-inner">
+          <div class="panel-bar"></div>
+          <h3 class="panel-title">UNDERSTAND</h3>
+          <p class="panel-desc">We invest time in deeply understanding your business, sector, and goals. Every engagement starts with listening — identifying the unique challenges and opportunities that define your situation.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <span class="panel-num">02</span>
+        <div class="panel-inner">
+          <div class="panel-bar"></div>
+          <h3 class="panel-title">ANALYSE</h3>
+          <p class="panel-desc">Our expert teams apply rigorous analytical frameworks to your financial and operational data, uncovering insights that drive informed decisions and reduce risk.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <span class="panel-num">03</span>
+        <div class="panel-inner">
+          <div class="panel-bar"></div>
+          <h3 class="panel-title">ADVISE</h3>
+          <p class="panel-desc">We deliver clear, tailored recommendations backed by experience across East Africa and beyond — giving you the clarity to act with confidence in complex regulatory environments.</p>
+        </div>
+      </div>
+      <div class="panel">
+        <span class="panel-num">04</span>
+        <div class="panel-inner">
+          <div class="panel-bar"></div>
+          <h3 class="panel-title">IMPACT</h3>
+          <p class="panel-desc">Every engagement is measured by the impact it creates — for your business, your people, and the broader community. Sustainable outcomes are the standard we hold ourselves to.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PARALLAX BAND -->
+<div id="parallax-band">
+  <div class="parallax-inner" id="parallax-inner"></div>
+  <div class="parallax-text">
+    <h2>IMPACT THAT<br><span>MATTERS</span></h2>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section class="section" id="testimonials">
+  <div style="text-align:center;margin-bottom:clamp(40px,6vw,64px)">
+    <p class="section-label">What Clients Say</p>
+    <h2 class="section-title">TRUSTED BY<br><span style="color:var(--accent)">LEADERS</span></h2>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <p class="testi-quote">Lloyd Cooper brought a level of rigour and professionalism to our audit that we hadn't experienced before. They truly understand the East African business landscape.</p>
+      <div class="testi-name">James Mwangi</div>
+      <div class="testi-role">CFO, Horizon Capital — Nairobi</div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-quote">Their tax advisory team saved us significant exposure during a regulatory transition. The guidance was timely, precise, and delivered with genuine care for our outcome.</p>
+      <div class="testi-name">Grace Nakimera</div>
+      <div class="testi-role">CEO, BuildRight Uganda — Kampala</div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-quote">The HR and management consulting engagement transformed how we operate. We now have systems and people strategies that actually scale with our ambitions.</p>
+      <div class="testi-name">Omar Hassan</div>
+      <div class="testi-role">Director, Afri-Trade Holdings — Mogadishu</div>
+    </div>
+  </div>
+</section>
+
+<!-- OFFICES -->
+<section id="locations">
+  <div style="max-width:640px">
+    <p class="section-label">Our Presence</p>
+    <h2 class="section-title">FOUR <span style="color:var(--accent)">COUNTRIES</span><br>ONE STANDARD</h2>
+  </div>
+  <div class="locations-grid">
+    <div class="location-box">
+      <span class="location-flag">🇰🇪</span>
+      <div class="location-city">Nairobi</div>
+      <div class="location-country">Kenya</div>
+      <div class="location-hq">Headquarters</div>
+    </div>
+    <div class="location-box">
+      <span class="location-flag">🇺🇬</span>
+      <div class="location-city">Kampala</div>
+      <div class="location-country">Uganda</div>
+    </div>
+    <div class="location-box">
+      <span class="location-flag">🇷🇼</span>
+      <div class="location-city">Kigali</div>
+      <div class="location-country">Rwanda</div>
+    </div>
+    <div class="location-box">
+      <span class="location-flag">🇸🇴</span>
+      <div class="location-city">Mogadishu</div>
+      <div class="location-country">Somalia</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="cta-glow"></div>
+  <h2 class="cta-title">LET'S MAKE<br><span>AN IMPACT</span><br>TOGETHER</h2>
+  <a href="mailto:info@lloydcooper.com" class="cta-btn">Start a Conversation</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="footer-logo-mark">LC</div>
+        LLOYD COOPER GROUP
+      </div>
+      <p class="footer-tagline">Making an impact that matters — for our clients, their businesses, and the communities we serve across East Africa.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <a href="#services">Audit & Assurance</a>
+      <a href="#services">Tax Compliance</a>
+      <a href="#services">Management Consulting</a>
+      <a href="#services">Enterprise Technology</a>
+      <a href="#services">HR Management</a>
+      <a href="#services">Business Outsourcing</a>
+    </div>
+    <div class="footer-col">
+      <h4>Offices</h4>
+      <a href="#">Nairobi, Kenya (HQ)</a>
+      <a href="#">Kampala, Uganda</a>
+      <a href="#">Kigali, Rwanda</a>
+      <a href="#">Mogadishu, Somalia</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:info@lloydcooper.com">info@lloydcooper.com</a>
+      <a href="tel:+254000000000">+254 000 000 000</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="foot-copy">© 2025 Lloyd Cooper Group. All rights reserved.</div>
+    <div class="foot-tagline">Impact that matters.</div>
+  </div>
+</footer>
+
+<!-- CDNs -->
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+/* ── 1. LENIS ── */
+const lenis = new Lenis({ duration: 1.1, easing: t => 1 - Math.pow(1 - t, 4) });
+gsap.ticker.add(t => lenis.raf(t * 1000));
+gsap.ticker.lagSmoothing(0);
+lenis.on('scroll', ScrollTrigger.update);
+
+/* ── 2. CURSOR ── */
+if (window.matchMedia('(pointer:fine)').matches) {
+  const cur  = document.getElementById('cur');
+  const ring = document.getElementById('cur-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+  gsap.ticker.add(() => {
+    gsap.set(cur,  { x: mx, y: my });
+    rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
+    gsap.set(ring, { x: rx, y: ry });
+  });
+}
+
+/* ── 3. NAVBAR ── */
+const navbar = document.getElementById('navbar');
+ScrollTrigger.create({
+  start: 'top -60px',
+  onUpdate: s => navbar.classList.toggle('scrolled', s.progress > 0)
+});
+
+/* ── 4. HERO CAROUSEL ── */
+const slides = document.querySelectorAll('.hero-slide');
+const dotsContainer = document.getElementById('hero-dots');
+let currentSlide = 0, carouselTimer;
+
+slides.forEach((_, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => goToSlide(i));
+  dotsContainer.appendChild(dot);
+});
+
+function goToSlide(index) {
+  slides[currentSlide].classList.remove('active');
+  dotsContainer.children[currentSlide].classList.remove('active');
+  currentSlide = (index + slides.length) % slides.length;
+  slides[currentSlide].classList.add('active');
+  dotsContainer.children[currentSlide].classList.add('active');
+  resetTimer();
+}
+function resetTimer() {
+  clearInterval(carouselTimer);
+  carouselTimer = setInterval(() => goToSlide(currentSlide + 1), 5000);
+}
+resetTimer();
+
+/* ── 5. TYPEWRITER ── */
+const typeEl   = document.getElementById('typewriter');
+const tw_words = ['MATTERS', 'LASTS', 'COUNTS', 'GROWS'];
+let tw_wordIdx = 0, tw_charIdx = 0, tw_deleting = false, tw_delay = 150;
+
+function typeLoop() {
+  const word = tw_words[tw_wordIdx];
+  if (tw_deleting) {
+    typeEl.textContent = word.slice(0, --tw_charIdx);
+    tw_delay = 75;
+  } else {
+    typeEl.textContent = word.slice(0, ++tw_charIdx);
+    tw_delay = 150;
+  }
+  if (!tw_deleting && tw_charIdx === word.length) {
+    tw_deleting = true; tw_delay = 1800;
+  } else if (tw_deleting && tw_charIdx === 0) {
+    tw_deleting = false;
+    tw_wordIdx  = (tw_wordIdx + 1) % tw_words.length;
+    tw_delay    = 400;
+  }
+  setTimeout(typeLoop, tw_delay);
+}
+setTimeout(typeLoop, 1600);
+
+/* ── 6. HERO ENTRANCE ── */
+gsap.set(['.hero-eyebrow','.hero-sub','.hero-cta','.scroll-hint'], { opacity: 0, y: 18 });
+gsap.set('.word', { opacity: 0, y: 110 });
+gsap.timeline({ defaults: { ease: 'power4.out' } })
+  .to('.word',         { y: 0, opacity: 1, duration: 1.1, stagger: 0.08 }, 0.1)
+  .to('.hero-eyebrow', { y: 0, opacity: 1, duration: 0.7 }, 0.5)
+  .to('.hero-sub',     { y: 0, opacity: 1, duration: 0.7 }, 0.65)
+  .to('.hero-cta',     { y: 0, opacity: 1, duration: 0.7 }, 0.8)
+  .to('.scroll-hint',  { y: 0, opacity: 0.3, duration: 0.5 }, 1.0);
+
+/* ── 7. BATCHED SCROLL REVEALS (bidirectional) ── */
+const revealGroups = [
+  { sel: '.section-label', from: { opacity: 0, y: 16 } },
+  { sel: '.section-title, .panel-title, .cta-title', from: { opacity: 0, y: 55 } },
+  { sel: '.stat-box, .cta-btn', from: { opacity: 0, scale: 0.88 } },
+  { sel: '.card', from: { opacity: 0, y: 50 } },
+  { sel: '.location-box', from: { opacity: 0, y: 30 } },
+  { sel: '.testi-card:nth-child(1)', from: { opacity: 0, x: -50 } },
+  { sel: '.testi-card:nth-child(2)', from: { opacity: 0, y: 50 } },
+  { sel: '.testi-card:nth-child(3)', from: { opacity: 0, x: 50 } },
+  { sel: '.panel-desc, .card-desc', from: { opacity: 0 } },
+];
+
+revealGroups.forEach(({ sel, from }) => {
+  const els = gsap.utils.toArray(sel);
+  if (!els.length) return;
+  gsap.set(els, from);
+  ScrollTrigger.batch(els, {
+    start: 'top 90%',
+    onEnter:     batch => gsap.to(batch, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.85, ease: 'power3.out', stagger: 0.09 }),
+    onLeaveBack: batch => gsap.set(batch, from),
+  });
+});
+
+/* ── 8. COUNTERS (bidirectional) ── */
+document.querySelectorAll('.counter').forEach(el => {
+  const target = +el.dataset.to;
+  let tween;
+  ScrollTrigger.create({
+    trigger: el, start: 'top 88%',
+    onEnter: () => {
+      if (tween) tween.kill();
+      el.textContent = '0';
+      tween = gsap.to({ n: 0 }, {
+        n: target, duration: 1.6, ease: 'power2.out',
+        onUpdate() { el.textContent = Math.round(this.targets()[0].n); }
+      });
+    },
+    onLeaveBack: () => { if (tween) tween.kill(); el.textContent = '0'; },
+  });
+});
+
+/* ── 9. HORIZONTAL PINNED SCROLL ── */
+const row        = document.getElementById('panels-row');
+const pinSection = document.getElementById('pin-section');
+gsap.to(row, {
+  x: () => -(row.scrollWidth - window.innerWidth),
+  ease: 'none',
+  scrollTrigger: {
+    trigger: pinSection, pin: pinSection,
+    pinSpacing: true, anticipatePin: 1,
+    start: 'top top',
+    end: () => '+=' + (row.scrollWidth - window.innerWidth),
+    scrub: 0.8, invalidateOnRefresh: true,
+  }
+});
+
+/* ── 10. PARALLAX TEXT (bidirectional) ── */
+gsap.set('.parallax-text h2', { opacity: 0, y: 55 });
+ScrollTrigger.create({
+  trigger: '#parallax-band', start: 'top 75%',
+  onEnter:     () => gsap.to('.parallax-text h2', { opacity: 1, y: 0,  duration: 0.85, ease: 'power3.out' }),
+  onLeaveBack: () => gsap.to('.parallax-text h2', { opacity: 0, y: 55, duration: 0.4,  ease: 'power2.in'  }),
+});
+
+/* ── 11. PARALLAX BAND ── */
+gsap.to('#parallax-inner', {
+  yPercent: 22, ease: 'none',
+  scrollTrigger: { trigger: '#parallax-band', start: 'top bottom', end: 'bottom top', scrub: true }
+});
+</script>
+</body>
+</html>
