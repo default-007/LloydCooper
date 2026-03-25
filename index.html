@@ -1,886 +1,2208 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Lloyd Cooper Group</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet"/>
-  <style>
-    :root {
-      --black: #070c0a;
-      --white: #edf2ef;
-      --accent: #e07b2a; 
-      --accent2: #2e7d52;
-      --card: #0d1410;
-      --muted: rgba(237,242,239,0.45);
-      --border: rgba(237,242,239,0.07);
-      --pad-x: clamp(20px, 5vw, 80px);
-    }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: auto; }
-    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lloyd Cooper Group</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet" />
+    <style>
+      :root {
+        --black: #1a1f1c;
+        /* deep forest-ink — headings, heavy text */
+        --white: #f4f0e8;
+        /* warm cream — page background */
+        --accent: #3d6b4f;
+        /* muted forest green — primary accent */
+        --accent2: #b07d3a;
+        /* warm antique gold — secondary accent */
+        --card: #edeae0;
+        /* slightly deeper cream — card fills */
+        --muted: rgba(26, 31, 28, 0.52);
+        --border: rgba(26, 31, 28, 0.10);
+        --pad-x: clamp(20px, 5vw, 80px);
+      }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; inset: 0 0 auto 0; z-index: 200;
-      padding: 20px var(--pad-x);
-      display: flex; align-items: center; justify-content: space-between;
-      transition: background 0.4s, backdrop-filter 0.4s;
-    }
-    nav.scrolled { background: rgba(7,12,10,0.92); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
-    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: clamp(20px,2.5vw,26px); letter-spacing: 3px; color: var(--white); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-    .nav-logo-mark { width: 32px; height: 32px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 16px; font-family: 'Bebas Neue', sans-serif; color: #fff; letter-spacing: 0; flex-shrink: 0; }
-    .nav-links { display: flex; gap: clamp(14px,3vw,40px); }
-    .nav-links a { color: var(--white); text-decoration: none; font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; opacity: 0.5; transition: opacity 0.2s; }
-    .nav-links a:hover { opacity: 1; }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    /* ── HERO ── */
-    #hero {
-      min-height: 100svh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
-      padding: 100px var(--pad-x) 80px;
-      position: relative; overflow: hidden;
-    }
+      html {
+        scroll-behavior: auto;
+      }
 
-    /* ── HERO CAROUSEL ── */
-    .hero-slides { position: absolute; inset: 0; z-index: 0; }
-    .hero-slide {
-      position: absolute; inset: 0;
-      background-size: cover; background-position: center;
-      opacity: 0; transition: opacity 1.2s ease;
-    }
-    .hero-slide.active { opacity: 1; }
-    .hero-slide::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(to bottom, rgba(7,12,10,0.6) 0%, rgba(7,12,10,0.82) 100%);
-    }
-    .hero-dots {
-      position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
-      display: flex; gap: 8px; z-index: 10;
-    }
-    .hero-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--white); opacity: 0.25; cursor: pointer;
-      transition: opacity 0.3s, transform 0.3s, background 0.3s;
-    }
-    .hero-dot.active { opacity: 1; transform: scale(1.4); background: var(--accent); }
+      body {
+        background: var(--white);
+        color: var(--black);
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+      }
 
-    .hero-grid {
-      position: absolute; inset: 0; z-index: 1;
-      background-image: linear-gradient(rgba(46,125,82,0.04) 1px,transparent 1px), linear-gradient(90deg,rgba(46,125,82,0.04) 1px,transparent 1px);
-      background-size: 60px 60px; pointer-events: none;
-    }
-    .hero-content { position: relative; z-index: 2; }
-    .hero-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 5px; text-transform: uppercase; color: var(--accent2); margin-bottom: 24px; }
-    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(56px,13vw,150px); line-height: 0.92; letter-spacing: 2px; }
-    .hero-title .line { display: block; overflow: hidden; }
-    .hero-title .word { display: inline-block; }
+      /* ── NAV ── */
+      nav {
+        position: fixed;
+        inset: 0 0 auto 0;
+        z-index: 200;
+        padding: 20px var(--pad-x);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: background 0.5s, backdrop-filter 0.5s, box-shadow 0.5s;
+      }
 
-    .typewriter-wrap { display: inline-block; }
-    .typewriter-text { color: var(--accent); }
-    .typewriter-cursor {
-      display: inline-block; width: 4px; height: 0.8em;
-      background: var(--accent); margin-left: 3px;
-      vertical-align: middle;
-      animation: blink 0.75s step-end infinite;
-    }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+      nav.scrolled {
+        background: rgba(244, 240, 232, 0.96);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 1px 0 var(--border);
+      }
 
-    .hero-sub { font-size: clamp(14px,1.5vw,16px); font-weight: 300; color: var(--muted); max-width: 520px; margin: 28px auto 0; line-height: 1.85; }
-    .hero-cta {
-      display: inline-block; margin-top: 44px; padding: 15px clamp(28px,5vw,52px);
-      border: 1.5px solid var(--accent); color: var(--accent);
-      font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; text-decoration: none;
-      position: relative; overflow: hidden; transition: color 0.3s;
-    }
-    .hero-cta::after { content:''; position: absolute; inset: 0; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.35s ease; z-index: -1; }
-    .hero-cta:hover { color: var(--white); }
-    .hero-cta:hover::after { transform: scaleX(1); }
-    .scroll-hint { position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.3; z-index: 10; }
-    .scroll-hint-line { width: 1px; height: 44px; background: var(--white); animation: pulse 2s ease-in-out infinite; }
-    @keyframes pulse {
-      0%   { transform: scaleY(0); transform-origin: top; opacity: 0; }
-      50%  { transform: scaleY(1); transform-origin: top; opacity: 1; }
-      100% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
-    }
+      /* Logo — always white over hero, black once scrolled */
+      .nav-logo {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(16px, 2vw, 20px);
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        color: var(--white);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        transition: color 0.5s;
+        position: relative;
+        z-index: 201;
+      }
 
-    /* ── MARQUEE ── */
-    .marquee-wrap { padding: 40px 0; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .marquee-track { display: flex; gap: 60px; white-space: nowrap; animation: marquee 28s linear infinite; will-change: transform; }
-    .marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px,6vw,56px); letter-spacing: 3px; opacity: 0.08; flex-shrink: 0; user-select: none; }
-    .marquee-item.hi { color: var(--accent); opacity: 0.2; }
-    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+      nav.scrolled .nav-logo {
+        color: var(--black);
+      }
 
-    /* ── SHARED ── */
-    .section { padding: clamp(80px,12vw,160px) var(--pad-x); }
-    .section-label { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--accent2); margin-bottom: 16px; }
-    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px,7vw,80px); letter-spacing: 1px; line-height: 1; }
+      .nav-logo-mark {
+        width: 30px;
+        height: 30px;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: 0;
+        flex-shrink: 0;
+      }
 
-    /* ── STATS ── */
-    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; margin-top: clamp(40px,6vw,80px); }
-    @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 400px) { .stats-grid { grid-template-columns: 1fr; } }
-    .stat-box { border: 1px solid var(--border); padding: clamp(28px,4vw,48px) clamp(16px,3vw,28px); text-align: center; }
-    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px,8vw,88px); color: var(--accent); line-height: 1; }
-    .stat-lbl { font-size: 11px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
+      /* Desktop links */
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: clamp(20px, 3vw, 44px);
+      }
 
-    /* ── SCROLL PROGRESS BAR ── */
-    #progress-bar {
-      position: fixed; top: 0; left: 0; height: 3px; width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      z-index: 9999; pointer-events: none;
-      transition: width 0.05s linear;
-    }
+      .nav-links a {
+        color: rgba(244, 240, 232, 0.75);
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        position: relative;
+        padding-bottom: 2px;
+        transition: color 0.25s;
+      }
 
-    /* ── SERVICE CARDS — 3D FLIP ── */
-    .cards-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: clamp(40px,6vw,64px); }
-    @media (max-width: 900px) { .cards-grid { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width: 560px) { .cards-grid { grid-template-columns: 1fr; } }
+      .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 1px;
+        background: currentColor;
+        transition: width 0.3s ease;
+      }
 
-    .flip-card { perspective: 1000px; min-height: 260px; cursor: pointer; }
-    .flip-card-inner {
-      position: relative; width: 100%; height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
-      min-height: 260px;
-    }
-    .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+      .nav-links a:hover {
+        color: var(--white);
+      }
 
-    .flip-front, .flip-back {
-      position: absolute; inset: 0;
-      backface-visibility: hidden; -webkit-backface-visibility: hidden;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: clamp(28px,4vw,48px) clamp(20px,3vw,40px);
-      display: flex; flex-direction: column; justify-content: flex-start;
-    }
-    .flip-front::before {
-      content:''; position: absolute; top: 0; left: 0;
-      width: 2px; height: 0; background: var(--accent);
-      transition: height 0.5s ease;
-    }
-    .flip-card:hover .flip-front::before { height: 100%; }
+      .nav-links a:hover::after {
+        width: 100%;
+      }
 
-    .flip-back {
-      transform: rotateY(180deg);
-      background: var(--accent);
-      border-color: var(--accent);
-      justify-content: center;
-      align-items: flex-start;
-    }
-    .flip-back-label {
-      font-size: 10px; font-weight: 700; letter-spacing: 3px;
-      text-transform: uppercase; color: rgba(237,242,239,0.6);
-      margin-bottom: 16px;
-    }
-    .flip-back-text {
-      font-size: 14px; color: var(--white); line-height: 1.8; font-weight: 300;
-    }
-    .flip-back-cta {
-      margin-top: 24px; font-size: 11px; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase; color: var(--white);
-      border-bottom: 1px solid rgba(237,242,239,0.4); padding-bottom: 2px;
-      display: inline-block; text-decoration: none;
-    }
-    .card-icon { font-size: 28px; margin-bottom: 20px; display: block; }
-    .card-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px,2.5vw,28px); letter-spacing: 1px; margin-bottom: 14px; }
-    .card-desc { font-size: 14px; color: var(--muted); line-height: 1.75; }
+      nav.scrolled .nav-links a {
+        color: rgba(26, 31, 28, 0.55);
+      }
 
-    /* ── TILT CARDS (testimonials + location boxes) ── */
-    .testi-card { transform-style: preserve-3d; will-change: transform; transition: box-shadow 0.3s; }
-    .testi-card:hover { box-shadow: 0 20px 60px rgba(46,125,82,0.12); }
-    .location-box { transform-style: preserve-3d; will-change: transform; }
+      nav.scrolled .nav-links a:hover {
+        color: var(--black);
+      }
 
-    /* ── MAGNETIC BUTTONS ── */
-    .magnetic { display: inline-block; }
-    .magnetic-inner { display: inline-block; transition: transform 0.3s cubic-bezier(0.23,1,0.32,1); }
+      /* CTA pill in nav */
+      .nav-cta {
+        padding: 9px 22px;
+        background: var(--accent);
+        color: #fff !important;
+        font-size: 10px !important;
+        font-weight: 600 !important;
+        letter-spacing: 1.5px !important;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: background 0.3s, transform 0.2s !important;
+        opacity: 1 !important;
+      }
 
-    /* ── SLIDE-IN LOCATION BOXES ── */
-    .location-box { transition: border-color 0.3s, transform 0.4s ease, box-shadow 0.4s ease; }
-    .location-box:hover { transform: translateY(-6px) !important; box-shadow: 0 16px 40px rgba(46,125,82,0.1); }
+      .nav-cta::after {
+        display: none !important;
+      }
 
-    /* ── HORIZONTAL PIN ── */
-    #pin-section { background: #050a07; position: relative; z-index: 1; overflow: hidden; }
-    .pin-sticky { height: 100svh; display: flex; flex-direction: column; justify-content: center; }
-    .pin-label { font-size: 10px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--accent2); padding: 0 var(--pad-x); margin-bottom: clamp(24px,4vw,48px); }
-    .panels-row { display: flex; width: 400vw; }
-    .panel { width: 100vw; flex-shrink: 0; padding: 0 var(--pad-x); display: flex; align-items: center; position: relative; }
-    .panel-num { font-family: 'Bebas Neue', sans-serif; font-size: clamp(100px,18vw,220px); color: rgba(46,125,82,0.05); position: absolute; right: var(--pad-x); bottom: -20px; line-height: 1; user-select: none; pointer-events: none; }
-    .panel-inner { max-width: min(560px,80vw); }
-    .panel-bar { width: 40px; height: 2px; background: var(--accent); margin-bottom: 20px; }
-    .panel-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,9vw,80px); line-height: 1; letter-spacing: 1px; margin-bottom: 18px; }
-    .panel-desc { font-size: clamp(13px,1.5vw,15px); color: var(--muted); line-height: 1.8; }
+      .nav-cta:hover {
+        background: var(--accent2) !important;
+        color: #fff !important;
+        transform: translateY(-1px);
+      }
 
-    /* ── PARALLAX BAND ── */
-    #parallax-band { height: clamp(280px,50vw,560px); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
-    .parallax-inner { position: absolute; inset: -25% 0; background: radial-gradient(ellipse at 25% 50%, rgba(46,125,82,0.08) 0%, transparent 55%), radial-gradient(ellipse at 75% 50%, rgba(224,123,42,0.05) 0%, transparent 50%), var(--black); }
-    .parallax-text { position: relative; text-align: center; z-index: 2; padding: 0 var(--pad-x); }
-    .parallax-text h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(48px,11vw,130px); line-height: 0.95; letter-spacing: 3px; }
-    .parallax-text h2 span { color: var(--accent); }
+      nav.scrolled .nav-cta {
+        color: #fff !important;
+      }
 
-    /* ── TESTIMONIALS ── */
-    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: clamp(40px,6vw,64px); }
-    @media (max-width: 900px) { .testi-grid { grid-template-columns: 1fr; } }
-    .testi-card { background: var(--card); border: 1px solid var(--border); padding: clamp(28px,4vw,48px); }
-    .testi-quote { font-size: 14px; font-weight: 300; line-height: 1.85; color: rgba(237,242,239,0.65); margin-bottom: 28px; }
-    .testi-quote::before { content:'"'; font-family: 'Bebas Neue', sans-serif; font-size: 64px; color: var(--accent); opacity: 0.25; display: block; line-height: 0.7; margin-bottom: 14px; }
-    .testi-name { font-size: 13px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; }
-    .testi-role { font-size: 12px; color: var(--muted); margin-top: 4px; }
+      nav.scrolled .nav-cta:hover {
+        color: #fff !important;
+      }
 
-    /* ── LOCATIONS ── */
-    #locations { padding: clamp(80px,12vw,160px) var(--pad-x); background: #0a0f0c; }
-    .locations-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; margin-top: clamp(40px,6vw,64px); }
-    @media (max-width: 768px) { .locations-grid { grid-template-columns: repeat(2,1fr); } }
-    .location-box { border: 1px solid var(--border); padding: clamp(24px,3vw,40px); position: relative; overflow: hidden; transition: border-color 0.3s; }
-    .location-box:hover { border-color: rgba(46,125,82,0.25); }
-    .location-box::after { content:''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease; }
-    .location-box:hover::after { transform: scaleX(1); }
-    .location-flag { font-size: 24px; margin-bottom: 14px; display: block; }
-    .location-city { font-family: 'Bebas Neue', sans-serif; font-size: clamp(22px,3vw,32px); letter-spacing: 1px; margin-bottom: 6px; }
-    .location-country { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); }
-    .location-hq { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent2); margin-top: 8px; font-weight: 600; }
+      /* Hamburger button */
+      .nav-hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 4px;
+        background: none;
+        border: none;
+        z-index: 201;
+        position: relative;
+      }
 
-    /* ── CTA ── */
-    #cta { padding: clamp(100px,16vw,220px) var(--pad-x); text-align: center; position: relative; overflow: hidden; }
-    .cta-glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, rgba(46,125,82,0.06) 0%, transparent 65%); pointer-events: none; }
-    .cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px,12vw,140px); line-height: 0.93; letter-spacing: 2px; position: relative; }
-    .cta-title span { color: var(--accent); }
-    .cta-title span.orange { color: var(--accent2); }
-    .cta-btn { position: relative; display: inline-block; margin-top: clamp(36px,5vw,60px); padding: 18px clamp(36px,6vw,72px); background: var(--accent); color: var(--white); font-size: 12px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; text-decoration: none; transition: transform 0.25s, box-shadow 0.25s, background 0.3s; }
-    .cta-btn:hover { background: var(--accent2); color: var(--white); transform: translateY(-4px); box-shadow: 0 24px 60px rgba(224,123,42,0.2); }
+      .nav-hamburger span {
+        display: block;
+        width: 24px;
+        height: 1.5px;
+        background: var(--white);
+        transition: transform 0.35s ease, opacity 0.25s, background 0.5s;
+        transform-origin: center;
+      }
 
-    /* ── FOOTER ── */
-    footer { padding: 48px var(--pad-x) 36px; border-top: 1px solid var(--border); }
-    .footer-top { display: flex; flex-wrap: wrap; gap: 48px; justify-content: space-between; margin-bottom: 40px; }
-    .footer-brand { max-width: 300px; }
-    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 3px; display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-    .footer-logo-mark { width: 28px; height: 28px; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 14px; font-family: 'Bebas Neue', sans-serif; color: #fff; letter-spacing: 0; flex-shrink: 0; }
-    .footer-tagline { font-size: 13px; color: var(--muted); line-height: 1.7; }
-    .footer-col h4 { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
-    .footer-col a { display: block; font-size: 13px; color: var(--muted); text-decoration: none; margin-bottom: 10px; transition: color 0.2s; }
-    .footer-col a:hover { color: var(--white); }
-    .footer-bottom { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; border-top: 1px solid var(--border); padding-top: 24px; }
-    .foot-copy { font-size: 12px; opacity: 0.28; }
-    .foot-tagline { font-size: 12px; color: var(--accent); opacity: 0.6; font-style: italic; }
+      nav.scrolled .nav-hamburger span {
+        background: var(--black);
+      }
 
-    /* ── CURSOR ── */
-    @media (pointer: fine) {
-      #cur      { width:10px; height:10px; background:var(--accent); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9999; transform:translate(-50%,-50%); }
-      #cur-ring { width:32px; height:32px; border:1px solid rgba(46,125,82,0.5); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:9998; transform:translate(-50%,-50%); }
-    }
-  </style>
-</head>
-<body>
+      .nav-hamburger.open span:nth-child(1) {
+        transform: translateY(6.5px) rotate(45deg);
+      }
 
-<div id="progress-bar"></div>
-<div id="cur"></div>
-<div id="cur-ring"></div>
+      .nav-hamburger.open span:nth-child(2) {
+        opacity: 0;
+        transform: scaleX(0);
+      }
 
-<!-- NAV -->
-<nav id="navbar">
-  <a href="#" class="nav-logo">
-    <div class="nav-logo-mark">LC</div>
-    LLOYD COOPER GROUP
-  </a>
-  <div class="nav-links">
-    <a href="#services">Services</a>
-    <a href="#about">About</a>
-    <a href="#locations">Offices</a>
-    <a href="#cta">Contact</a>
-  </div>
-</nav>
+      .nav-hamburger.open span:nth-child(3) {
+        transform: translateY(-6.5px) rotate(-45deg);
+      }
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-slides">
-    <div class="hero-slide active" style="background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1600&q=80')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&q=80')"></div>
-    <div class="hero-slide" style="background-image:url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1600&q=80')"></div>
-  </div>
-  <div class="hero-grid"></div>
+      /* Mobile drawer */
+      .nav-drawer {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: var(--white);
+        z-index: 199;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+        opacity: 0;
+        transform: translateY(-12px);
+        transition: opacity 0.35s ease, transform 0.35s ease;
+        pointer-events: none;
+      }
 
-  <div class="hero-content">
-    <p class="hero-eyebrow">Audit · Tax · Advisory · East Africa</p>
-    <h1 class="hero-title">
-      <span class="line"><span class="word">IMPACT</span></span>
-      <span class="line">
-        <span class="word">THAT&nbsp;</span><span class="word typewriter-wrap"><span class="typewriter-text" id="typewriter"></span><span class="typewriter-cursor"></span></span>
-      </span>
-    </h1>
-    <p class="hero-sub">A leading independent audit, tax and accounting firm driven by one mantra — to make an impact that matters in the most sustainable way.</p>
-    <a href="#services" class="hero-cta">Our Services</a>
-  </div>
+      .nav-drawer.open {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: all;
+      }
 
-  <div class="hero-dots" id="hero-dots"></div>
-  <div class="scroll-hint"><span>Scroll</span><div class="scroll-hint-line"></div></div>
-</section>
+      .nav-drawer a {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(32px, 8vw, 52px);
+        font-weight: 300;
+        color: var(--black);
+        text-decoration: none;
+        letter-spacing: 1px;
+        padding: 14px 0;
+        border-bottom: 1px solid var(--border);
+        width: 80%;
+        text-align: center;
+        transition: color 0.2s;
+      }
 
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <span class="marquee-item">AUDIT</span><span class="marquee-item hi">✦</span>
-    <span class="marquee-item">TAX</span><span class="marquee-item hi">✦</span>
-    <span class="marquee-item">ADVISORY</span><span class="marquee-item hi">✦</span>
-    <span class="marquee-item">ASSURANCE</span><span class="marquee-item hi">✦</span>
-    <span class="marquee-item">COMPLIANCE</span><span class="marquee-item hi">✦</span>
-    <span class="marquee-item">AUDIT</span><span class="marquee-item hi">✦</span>
-    <span class="marquee-item">TAX</span><span class="marquee-item hi">✦</span>
-    <span class="marquee-item">ADVISORY</span><span class="marquee-item hi">✦</span>
-    <span class="marquee-item">ASSURANCE</span><span class="marquee-item hi">✦</span>
-    <span class="marquee-item">COMPLIANCE</span><span class="marquee-item hi">✦</span>
-  </div>
-</div>
+      .nav-drawer a:last-child {
+        border-bottom: none;
+      }
 
-<!-- ABOUT / STATS -->
-<section class="section" id="about">
-  <div style="max-width:640px">
-    <p class="section-label">By The Numbers</p>
-    <h2 class="section-title">TRUSTED <span style="color:var(--accent)">ACROSS</span><br>EAST AFRICA</h2>
-  </div>
-  <div class="stats-grid">
-    <div class="stat-box"><div class="stat-num"><span class="counter" data-to="10">0</span>+</div><div class="stat-lbl">Years in Operation</div></div>
-    <div class="stat-box"><div class="stat-num"><span class="counter" data-to="4">0</span></div><div class="stat-lbl">Countries</div></div>
-    <div class="stat-box"><div class="stat-num"><span class="counter" data-to="6">0</span></div><div class="stat-lbl">Service Practices</div></div>
-    <div class="stat-box"><div class="stat-num"><span class="counter" data-to="98">0</span>%</div><div class="stat-lbl">Client Satisfaction</div></div>
-  </div>
-</section>
+      .nav-drawer a:hover {
+        color: var(--accent);
+      }
 
-<!-- SERVICES -->
-<section class="section" id="services" style="background:#0a0f0c">
-  <div style="text-align:center;margin-bottom:clamp(40px,6vw,64px)">
-    <p class="section-label">What We Do</p>
-    <h2 class="section-title">OUR <span style="color:var(--accent)">SERVICES</span></h2>
-  </div>
-  <div class="cards-grid">
+      .nav-drawer-cta {
+        margin-top: 32px !important;
+        background: var(--accent) !important;
+        color: #fff !important;
+        font-size: 12px !important;
+        font-family: 'Inter', sans-serif !important;
+        font-weight: 600 !important;
+        letter-spacing: 2px !important;
+        text-transform: uppercase !important;
+        padding: 14px 48px !important;
+        border-bottom: none !important;
+        width: auto !important;
+      }
 
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-front">
-          <span class="card-icon">📊</span>
-          <h3 class="card-title">Audit, Assurance & Advisory</h3>
-          <p class="card-desc">Financial reporting and risk management services that give your business the comfort to focus on growth.</p>
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .nav-hamburger {
+          display: flex;
+        }
+
+        .nav-drawer {
+          display: flex;
+        }
+      }
+
+      /* ── HERO ── */
+      #hero {
+        min-height: 100svh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 100px var(--pad-x) 80px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* ── HERO CAROUSEL ── */
+      .hero-slides {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+      }
+
+      .hero-slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 1.6s ease;
+      }
+
+      .hero-slide.active {
+        opacity: 1;
+      }
+
+      .hero-slide::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(26, 31, 28, 0.45) 0%, rgba(26, 31, 28, 0.72) 100%);
+      }
+
+      .hero-dots {
+        position: absolute;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 10px;
+        z-index: 10;
+      }
+
+      .hero-dot {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: rgba(244, 240, 232, 0.4);
+        cursor: pointer;
+        transition: opacity 0.3s, transform 0.3s, background 0.3s;
+      }
+
+      .hero-dot.active {
+        background: var(--white);
+        transform: scale(1.5);
+      }
+
+      .hero-grid {
+        display: none;
+      }
+
+      /* removed grid overlay — Sandpiper is clean */
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+      }
+
+      .hero-eyebrow {
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: rgba(244, 240, 232, 0.65);
+        margin-bottom: 28px;
+      }
+
+      .hero-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(52px, 10vw, 130px);
+        font-weight: 300;
+        line-height: 1.0;
+        letter-spacing: -0.5px;
+        color: var(--white);
+      }
+
+      .hero-title .line {
+        display: block;
+        overflow: hidden;
+      }
+
+      .hero-title .word {
+        display: inline-block;
+      }
+
+      .typewriter-wrap {
+        display: inline-block;
+        font-style: italic;
+      }
+
+      .typewriter-text {
+        color: #a8c9b4;
+      }
+
+      .typewriter-cursor {
+        display: inline-block;
+        width: 2px;
+        height: 0.75em;
+        background: #a8c9b4;
+        margin-left: 3px;
+        vertical-align: middle;
+        animation: blink 0.75s step-end infinite;
+      }
+
+      @keyframes blink {
+
+        0%,
+        100% {
+          opacity: 1
+        }
+
+        50% {
+          opacity: 0
+        }
+      }
+
+      .hero-sub {
+        font-size: clamp(15px, 1.5vw, 17px);
+        font-weight: 300;
+        color: rgba(244, 240, 232, 0.72);
+        max-width: 520px;
+        margin: 28px auto 0;
+        line-height: 1.9;
+      }
+
+      .hero-cta {
+        display: inline-block;
+        margin-top: 48px;
+        padding: 14px clamp(28px, 5vw, 52px);
+        border: 1px solid rgba(244, 240, 232, 0.6);
+        color: var(--white);
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        position: relative;
+        overflow: hidden;
+        transition: color 0.35s;
+      }
+
+      .hero-cta::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: var(--white);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.35s ease;
+        z-index: -1;
+      }
+
+      .hero-cta:hover {
+        color: var(--black);
+      }
+
+      .hero-cta:hover::after {
+        transform: scaleX(1);
+      }
+
+      .scroll-hint {
+        position: absolute;
+        bottom: 32px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        opacity: 0.35;
+        z-index: 10;
+        color: var(--white);
+      }
+
+      .scroll-hint-line {
+        width: 1px;
+        height: 44px;
+        background: var(--white);
+        animation: pulse 2s ease-in-out infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scaleY(0);
+          transform-origin: top;
+          opacity: 0;
+        }
+
+        50% {
+          transform: scaleY(1);
+          transform-origin: top;
+          opacity: 1;
+        }
+
+        100% {
+          transform: scaleY(0);
+          transform-origin: bottom;
+          opacity: 0;
+        }
+      }
+
+      /* ── MARQUEE ── */
+      .marquee-wrap {
+        padding: 36px 0;
+        overflow: hidden;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        background: var(--white);
+      }
+
+      .marquee-track {
+        display: flex;
+        gap: 60px;
+        white-space: nowrap;
+        animation: marquee 28s linear infinite;
+        will-change: transform;
+      }
+
+      .marquee-item {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(28px, 5vw, 44px);
+        font-weight: 300;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        opacity: 0.18;
+        flex-shrink: 0;
+        user-select: none;
+        color: var(--black);
+      }
+
+      .marquee-item.hi {
+        color: var(--accent);
+        opacity: 0.35;
+        font-style: italic;
+      }
+
+      @keyframes marquee {
+        from {
+          transform: translateX(0);
+        }
+
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ── SHARED SECTIONS ── */
+      .section {
+        padding: clamp(80px, 12vw, 160px) var(--pad-x);
+        background: var(--white);
+      }
+
+      .section-label {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: var(--accent2);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .section-label::before {
+        content: '';
+        display: inline-block;
+        width: 24px;
+        height: 1px;
+        background: var(--accent2);
+      }
+
+      .section-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(36px, 6vw, 68px);
+        font-weight: 300;
+        letter-spacing: -0.5px;
+        line-height: 1.1;
+        color: var(--black);
+      }
+
+      /* ── STATS ── */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        margin-top: clamp(40px, 6vw, 80px);
+        background: var(--border);
+      }
+
+      @media (max-width: 768px) {
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 400px) {
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .stat-box {
+        background: var(--white);
+        padding: clamp(32px, 4vw, 56px) clamp(20px, 3vw, 36px);
+        text-align: center;
+        position: relative;
+        transition: background 0.3s;
+      }
+
+      .stat-box:hover {
+        background: #edeae0;
+      }
+
+      .stat-num {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(52px, 8vw, 88px);
+        font-weight: 300;
+        color: var(--accent);
+        line-height: 1;
+      }
+
+      .stat-lbl {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-top: 10px;
+      }
+
+      /* ── SCROLL PROGRESS BAR ── */
+      #progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+        z-index: 9999;
+        pointer-events: none;
+        transition: width 0.05s linear;
+      }
+
+      /* ── SERVICE CARDS — 3D FLIP ── */
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        margin-top: clamp(40px, 6vw, 64px);
+        background: var(--border);
+      }
+
+      @media (max-width: 900px) {
+        .cards-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 560px) {
+        .cards-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .flip-card-inner {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.75s cubic-bezier(0.4, 0.2, 0.2, 1);
+        min-height: 280px;
+      }
+
+      .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+      }
+
+      .flip-front,
+      .flip-back {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        background: var(--white);
+        padding: clamp(28px, 4vw, 48px) clamp(20px, 3vw, 40px);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      .flip-front {
+        border-top: 3px solid transparent;
+        transition: border-color 0.3s;
+      }
+
+      .flip-card:hover .flip-front {
+        border-top-color: var(--accent);
+      }
+
+      .flip-back {
+        transform: rotateY(180deg);
+        background: var(--accent);
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      .flip-back-label {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: rgba(244, 240, 232, 0.55);
+        margin-bottom: 18px;
+      }
+
+      .flip-back-text {
+        font-size: 14px;
+        color: rgba(244, 240, 232, 0.88);
+        line-height: 1.85;
+        font-weight: 300;
+      }
+
+      .flip-back-cta {
+        margin-top: 24px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--white);
+        border-bottom: 1px solid rgba(244, 240, 232, 0.4);
+        padding-bottom: 2px;
+        display: inline-block;
+        text-decoration: none;
+      }
+
+      .card-icon {
+        font-size: 26px;
+        margin-bottom: 20px;
+        display: block;
+      }
+
+      .card-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(20px, 2.2vw, 26px);
+        font-weight: 600;
+        letter-spacing: 0.3px;
+        margin-bottom: 14px;
+        color: var(--black);
+      }
+
+      .card-desc {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      /* ── HORIZONTAL PIN ── */
+      #pin-section {
+        background: var(--black);
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+      }
+
+      .pin-sticky {
+        height: 100svh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .pin-label {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: rgba(244, 240, 232, 0.4);
+        padding: 0 var(--pad-x);
+        margin-bottom: clamp(24px, 4vw, 48px);
+      }
+
+      .panels-row {
+        display: flex;
+        width: 400vw;
+      }
+
+      .panel {
+        width: 100vw;
+        flex-shrink: 0;
+        padding: 0 var(--pad-x);
+        display: flex;
+        align-items: center;
+        position: relative;
+      }
+
+      .panel-num {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(120px, 20vw, 260px);
+        color: rgba(244, 240, 232, 0.04);
+        position: absolute;
+        right: var(--pad-x);
+        bottom: -30px;
+        line-height: 1;
+        user-select: none;
+        pointer-events: none;
+        font-weight: 300;
+      }
+
+      .panel-inner {
+        max-width: min(600px, 80vw);
+      }
+
+      .panel-bar {
+        width: 40px;
+        height: 1px;
+        background: var(--accent2);
+        margin-bottom: 24px;
+      }
+
+      .panel-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(44px, 8vw, 80px);
+        font-weight: 300;
+        line-height: 1;
+        letter-spacing: -0.5px;
+        margin-bottom: 20px;
+        color: var(--white);
+      }
+
+      .panel-desc {
+        font-size: clamp(13px, 1.5vw, 15px);
+        color: rgba(244, 240, 232, 0.55);
+        line-height: 1.85;
+      }
+
+      /* ── PARALLAX BAND ── */
+      #parallax-band {
+        height: clamp(300px, 50vw, 580px);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+
+      .parallax-inner {
+        position: absolute;
+        inset: -25% 0;
+        background:
+          radial-gradient(ellipse at 30% 50%, rgba(61, 107, 79, 0.12) 0%, transparent 55%),
+          radial-gradient(ellipse at 70% 50%, rgba(176, 125, 58, 0.08) 0%, transparent 50%),
+          var(--black);
+      }
+
+      .parallax-text {
+        position: relative;
+        text-align: center;
+        z-index: 2;
+        padding: 0 var(--pad-x);
+      }
+
+      .parallax-text h2 {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(44px, 10vw, 120px);
+        font-weight: 300;
+        line-height: 1.0;
+        letter-spacing: 0px;
+        color: var(--white);
+      }
+
+      .parallax-text h2 span {
+        color: #a8c9b4;
+        font-style: italic;
+      }
+
+      /* ── TESTIMONIALS ── */
+      .testi-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        margin-top: clamp(40px, 6vw, 64px);
+        background: var(--border);
+      }
+
+      @media (max-width: 900px) {
+        .testi-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .testi-card {
+        background: var(--white);
+        padding: clamp(36px, 4vw, 56px);
+        transform-style: preserve-3d;
+        will-change: transform;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .testi-quote {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(16px, 1.7vw, 19px);
+        font-weight: 300;
+        font-style: italic;
+        line-height: 1.8;
+        color: rgba(26, 31, 28, 0.8);
+        margin-bottom: 32px;
+        flex: 1;
+      }
+
+      .testi-quote::before {
+        content: '\201C';
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 72px;
+        color: var(--accent);
+        opacity: 0.18;
+        display: block;
+        line-height: 0.55;
+        margin-bottom: 20px;
+        font-style: normal;
+      }
+
+      .testi-attribution {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+
+      .testi-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--accent);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .testi-name {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--black);
+      }
+
+      .testi-role {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 3px;
+      }
+
+      /* ── LOCATIONS ── */
+      #locations {
+        padding: clamp(80px, 12vw, 160px) var(--pad-x);
+        background: #ede9df;
+      }
+
+      .locations-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        margin-top: clamp(40px, 6vw, 64px);
+        background: var(--border);
+      }
+
+      @media (max-width: 768px) {
+        .locations-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      .location-box {
+        background: var(--white);
+        padding: clamp(28px, 3.5vw, 44px);
+        position: relative;
+        overflow: hidden;
+        transition: background 0.3s, transform 0.4s ease, box-shadow 0.4s ease;
+        transform-style: preserve-3d;
+        will-change: transform;
+      }
+
+      .location-box:hover {
+        background: var(--accent);
+        box-shadow: 0 16px 40px rgba(61, 107, 79, 0.12);
+      }
+
+      .location-box:hover .location-city,
+      .location-box:hover .location-country,
+      .location-box:hover .location-hq {
+        color: var(--white) !important;
+      }
+
+      .location-box:hover .location-flag {
+        filter: brightness(10);
+      }
+
+      .location-flag {
+        font-size: 24px;
+        margin-bottom: 16px;
+        display: block;
+        transition: filter 0.3s;
+      }
+
+      .location-city {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(22px, 3vw, 34px);
+        font-weight: 400;
+        letter-spacing: 0.3px;
+        margin-bottom: 6px;
+        color: var(--black);
+        transition: color 0.3s;
+      }
+
+      .location-country {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--muted);
+        transition: color 0.3s;
+      }
+
+      .location-hq {
+        font-size: 9px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--accent2);
+        margin-top: 10px;
+        font-weight: 600;
+        transition: color 0.3s;
+      }
+
+      /* ── CTA ── */
+      #cta {
+        padding: clamp(100px, 16vw, 220px) var(--pad-x);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        background: var(--black);
+      }
+
+      .cta-glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 50% 70%, rgba(61, 107, 79, 0.08) 0%, transparent 65%);
+        pointer-events: none;
+      }
+
+      .cta-title {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(48px, 10vw, 120px);
+        font-weight: 300;
+        line-height: 1.0;
+        letter-spacing: -0.5px;
+        position: relative;
+        color: var(--white);
+      }
+
+      .cta-title span {
+        color: #a8c9b4;
+        font-style: italic;
+      }
+
+      .cta-title span.orange {
+        color: #d4a05c;
+        font-style: normal;
+      }
+
+      .cta-btn {
+        position: relative;
+        display: inline-block;
+        margin-top: clamp(36px, 5vw, 60px);
+        padding: 16px clamp(36px, 6vw, 72px);
+        background: var(--accent);
+        color: var(--white);
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        text-decoration: none;
+        transition: transform 0.25s, box-shadow 0.25s, background 0.3s;
+      }
+
+      .cta-btn:hover {
+        background: var(--accent2);
+        color: var(--white);
+        transform: translateY(-4px);
+        box-shadow: 0 24px 60px rgba(176, 125, 58, 0.22);
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        padding: 72px var(--pad-x) 40px;
+        background: var(--black);
+        color: rgba(244, 240, 232, 0.65);
+      }
+
+      .footer-top {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 48px;
+        justify-content: space-between;
+        margin-bottom: 56px;
+      }
+
+      .footer-brand {
+        max-width: 320px;
+      }
+
+      .footer-logo {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        color: var(--white);
+      }
+
+      .footer-logo-mark {
+        width: 28px;
+        height: 28px;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-family: 'Cormorant Garamond', serif;
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: 0;
+        flex-shrink: 0;
+      }
+
+      .footer-tagline {
+        font-size: 13px;
+        color: rgba(244, 240, 232, 0.45);
+        line-height: 1.8;
+        font-style: italic;
+      }
+
+      .footer-col h4 {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--accent2);
+        margin-bottom: 20px;
+      }
+
+      .footer-col a {
+        display: block;
+        font-size: 13px;
+        color: rgba(244, 240, 232, 0.42);
+        text-decoration: none;
+        margin-bottom: 12px;
+        transition: color 0.2s;
+      }
+
+      .footer-col a:hover {
+        color: var(--white);
+      }
+
+      .footer-bottom {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        border-top: 1px solid rgba(244, 240, 232, 0.08);
+        padding-top: 28px;
+      }
+
+      .foot-copy {
+        font-size: 11px;
+        color: rgba(244, 240, 232, 0.25);
+      }
+
+      .foot-tagline {
+        font-size: 12px;
+        color: var(--accent);
+        font-style: italic;
+        opacity: 0.7;
+      }
+
+      /* ── CURSOR ── */
+      @media (pointer: fine) {
+        #cur {
+          width: 8px;
+          height: 8px;
+          background: var(--accent);
+          border-radius: 50%;
+          position: fixed;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+          z-index: 9999;
+          transform: translate(-50%, -50%);
+        }
+
+        #cur-ring {
+          width: 30px;
+          height: 30px;
+          border: 1px solid rgba(61, 107, 79, 0.45);
+          border-radius: 50%;
+          position: fixed;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+          z-index: 9998;
+          transform: translate(-50%, -50%);
+        }
+      }
+
+      /* ── TILT / MAGNETIC ── */
+      .testi-card {
+        transition: box-shadow 0.3s;
+      }
+
+      .testi-card:hover {
+        box-shadow: 0 20px 60px rgba(61, 107, 79, 0.08);
+      }
+
+      .location-box {
+        transition: background 0.3s, transform 0.4s ease, box-shadow 0.4s ease;
+      }
+
+      /* ── WHY US GRID ── */
+      .why-us-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(40px, 6vw, 100px);
+        align-items: start;
+      }
+
+      .why-us-industries {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2px;
+        background: var(--border);
+        margin-top: clamp(8px, 2vw, 20px);
+      }
+
+      .industry-box {
+        background: var(--white);
+        padding: clamp(20px, 3vw, 36px);
+      }
+
+      .industry-icon {
+        font-size: 22px;
+        margin-bottom: 12px;
+      }
+
+      .industry-name {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(16px, 1.8vw, 20px);
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--black);
+      }
+
+      .industry-desc {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      /* ── ABOUT BODY TEXT ── */
+      .about-body {
+        font-size: clamp(15px, 1.5vw, 17px);
+        color: var(--muted);
+        line-height: 1.9;
+        margin-top: 28px;
+        font-weight: 300;
+        max-width: 640px;
+      }
+
+      /* ── FLIP CARD HEIGHT FIX ── */
+      .flip-card {
+        perspective: 1000px;
+        cursor: pointer;
+      }
+
+      .flip-card-inner {
+        position: relative;
+        width: 100%;
+        transform-style: preserve-3d;
+        transition: transform 0.75s cubic-bezier(0.4, 0.2, 0.2, 1);
+        min-height: 300px;
+      }
+
+      @media (max-width: 560px) {
+        .flip-card-inner {
+          min-height: auto;
+        }
+
+        .flip-front,
+        .flip-back {
+          position: relative;
+        }
+
+        .flip-back {
+          display: none;
+        }
+
+        .flip-card:hover .flip-card-inner {
+          transform: none;
+        }
+      }
+
+      /* ── GLOBAL MOBILE BREAKPOINTS ── */
+      @media (max-width: 768px) {
+
+        /* why-us stacks */
+        .why-us-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .why-us-industries {
+          margin-top: 0;
+        }
+
+        /* about body full width */
+        .about-body {
+          max-width: 100%;
+        }
+
+        /* location hover lift — disable on touch */
+        .location-box:hover {
+          transform: none;
+        }
+
+        /* footer columns stack */
+        .footer-top {
+          flex-direction: column;
+          gap: 36px;
+        }
+
+        .footer-brand {
+          max-width: 100%;
+        }
+
+        /* panel label padding */
+        .pin-label {
+          padding: 0 var(--pad-x);
+        }
+
+        /* hero title tighter */
+        .hero-title {
+          line-height: 1.0;
+        }
+
+        /* cta title line height */
+        .cta-title {
+          line-height: 1.05;
+        }
+
+        /* hide scroll hint on very small screens */
+        .scroll-hint {
+          display: none;
+        }
+      }
+
+      @media (max-width: 480px) {
+
+        /* industries 1 col on very small screens */
+        .why-us-industries {
+          grid-template-columns: 1fr;
+        }
+
+        /* marquee slow down a bit visually */
+        .marquee-item {
+          font-size: clamp(24px, 6vw, 36px);
+        }
+
+        /* stat number smaller */
+        .stat-num {
+          font-size: clamp(44px, 12vw, 72px);
+        }
+
+        /* locations 1 col */
+        .locations-grid {
+          grid-template-columns: 1fr !important;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+
+    <div id="progress-bar"></div>
+    <div id="cur"></div>
+    <div id="cur-ring"></div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-mark">LC</div>
+        Lloyd Cooper Group
+      </a>
+      <div class="nav-links">
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#why-us">Why Us</a>
+        <a href="#locations">Offices</a>
+        <a href="#cta" class="nav-cta">Contact Us</a>
+      </div>
+      <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- MOBILE DRAWER -->
+    <div class="nav-drawer" id="nav-drawer">
+      <a href="#services" class="drawer-link">Services</a>
+      <a href="#about" class="drawer-link">About</a>
+      <a href="#why-us" class="drawer-link">Why Us</a>
+      <a href="#locations" class="drawer-link">Offices</a>
+      <a href="#cta" class="drawer-link nav-drawer-cta">Contact Us</a>
+    </div>
+
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-slides">
+        <div class="hero-slide active"
+          style="background-image:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=80')">
         </div>
-        <div class="flip-back">
-          <div class="flip-back-label">What we deliver</div>
-          <p class="flip-back-text">External & internal audits, risk assessments, compliance reviews, and assurance reporting — tailored to the East African regulatory environment.</p>
-          <a href="#cta" class="flip-back-cta">Engage Us →</a>
+        <div class="hero-slide"
+          style="background-image:url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1600&q=80')"></div>
+        <div class="hero-slide"
+          style="background-image:url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1600&q=80')">
+        </div>
+        <div class="hero-slide"
+          style="background-image:url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1600&q=80')">
+        </div>
+      </div>
+      <div class="hero-grid"></div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">Audit · Tax · Advisory · East Africa</p>
+        <h1 class="hero-title">
+          <span class="line"><span class="word">Impact</span></span>
+          <span class="line">
+            <span class="word">That&nbsp;</span><span class="word typewriter-wrap"><span class="typewriter-text"
+                id="typewriter"></span><span class="typewriter-cursor"></span></span>
+          </span>
+        </h1>
+        <p class="hero-sub">A leading, independent auditing, tax and accounting firm. Our existence is driven by one
+          mantra — to make an impact that matters in the most sustainable way.</p>
+        <a href="#services" class="hero-cta">Our Services</a>
+      </div>
+
+      <div class="hero-dots" id="hero-dots"></div>
+      <div class="scroll-hint"><span>Scroll</span>
+        <div class="scroll-hint-line"></div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="marquee-wrap">
+      <div class="marquee-track">
+        <span class="marquee-item">AUDIT</span><span class="marquee-item hi">✦</span>
+        <span class="marquee-item">TAX</span><span class="marquee-item hi">✦</span>
+        <span class="marquee-item">ADVISORY</span><span class="marquee-item hi">✦</span>
+        <span class="marquee-item">ASSURANCE</span><span class="marquee-item hi">✦</span>
+        <span class="marquee-item">COMPLIANCE</span><span class="marquee-item hi">✦</span>
+        <span class="marquee-item">AUDIT</span><span class="marquee-item hi">✦</span>
+        <span class="marquee-item">TAX</span><span class="marquee-item hi">✦</span>
+        <span class="marquee-item">ADVISORY</span><span class="marquee-item hi">✦</span>
+        <span class="marquee-item">ASSURANCE</span><span class="marquee-item hi">✦</span>
+        <span class="marquee-item">COMPLIANCE</span><span class="marquee-item hi">✦</span>
+      </div>
+    </div>
+
+    <!-- ABOUT / STATS -->
+    <section class="section" id="about">
+      <div style="max-width:720px; margin-bottom: clamp(48px,8vw,96px)">
+        <p class="section-label">About Us</p>
+        <h2 class="section-title">Innovative enterprise<br><span style="color:var(--accent)">solutions you can
+            trust.</span></h2>
+        <p class="about-body">
+          Lloyd Cooper Group is a leading, independent auditing, tax and accounting firm. We are driven by one mantra —
+          to make an impact that matters in the most sustainable way. To us, that means impact to our clients and their
+          businesses, ideas and actions that look out for the greater good.
+          <br><br>
+          We have been in operation for over 10 years, and have built a reputation for delivering high-quality, tailored
+          solutions that help our clients achieve their goals. Our headquarters are in Nairobi, with branches in Uganda,
+          Rwanda, and Somalia. Our team is made up of highly qualified and experienced professionals who work closely
+          with clients to understand their unique needs and challenges.
+        </p>
+      </div>
+      <div style="max-width:640px">
+        <p class="section-label">By The Numbers</p>
+        <h2 class="section-title">Trusted <span style="color:var(--accent)">across</span><br>East Africa</h2>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-num"><span class="counter" data-to="10">0</span>+</div>
+          <div class="stat-lbl">Years in Operation</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num"><span class="counter" data-to="2000">0</span>+</div>
+          <div class="stat-lbl">Happy Clients</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num"><span class="counter" data-to="3000">0</span>+</div>
+          <div class="stat-lbl">Projects Done</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num"><span class="counter" data-to="4">0</span></div>
+          <div class="stat-lbl">Countries</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" id="services" style="background:#ede9df">
+      <div style="text-align:center;margin-bottom:clamp(40px,6vw,64px)">
+        <p class="section-label">What We Offer</p>
+        <h2 class="section-title">Explore our <span style="color:var(--accent)">unrivalled services</span></h2>
+        <p
+          style="font-size:15px;color:var(--muted);max-width:600px;margin:20px auto 0;line-height:1.8;font-weight:300;">
+          In addition to advancing our own environmental goals, we work with our clients to embed sustainability across
+          their businesses and innovate with our people and partners to support communities.</p>
+      </div>
+      <div class="cards-grid">
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <span class="card-icon">📊</span>
+              <h3 class="card-title">Audit, Assurance & Advisory</h3>
+              <p class="card-desc">Our audit service goes beyond compliance. We uncover insights that enhance
+                efficiency, manage risks, and drive profitability — helping ensure regulatory compliance and guiding
+                your strategies.</p>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-label">What we deliver</div>
+              <p class="flip-back-text">Enhanced financial transparency, regulatory compliance, risk management,
+                operational efficiency, and stakeholder confidence — working across construction, charities, energy,
+                education and more.</p>
+              <a href="#cta" class="flip-back-cta">Engage Us →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <span class="card-icon">📈</span>
+              <h3 class="card-title">Management Consulting</h3>
+              <p class="card-desc">We stand ready to provide the strategy and consulting support for you to navigate
+                reinvention journeys — helping you become faster, more innovative and more resilient.</p>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-label">What we deliver</div>
+              <p class="flip-back-text">Business strategy, customer strategy, data strategy, technology strategy,
+                business transformation, innovation & emerging technology, and procurement strategy tailored to your
+                goals.</p>
+              <a href="#cta" class="flip-back-cta">Engage Us →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <span class="card-icon">💻</span>
+              <h3 class="card-title">Enterprise Technology</h3>
+              <p class="card-desc">We help companies modernise technology, reimagine processes and transform experiences
+                so they stay ahead in a fast-changing world — going beyond transformation to make a meaningful
+                difference.</p>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-label">What we deliver</div>
+              <p class="flip-back-text">Cloud solutions, data & AI, global ERP (Microsoft, SAP, Oracle, Odoo), finance
+                transformation, HR technology, cyber security, and enterprise management — with partners including IBM
+                and AWS.</p>
+              <a href="#cta" class="flip-back-cta">Engage Us →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <span class="card-icon">👥</span>
+              <h3 class="card-title">Human Resource Management</h3>
+              <p class="card-desc">We optimise talent management for the success of your business — helping clients
+                boost performance through strategies that achieve a sustainable competitive advantage in their markets.
+              </p>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-label">What we deliver</div>
+              <p class="flip-back-text">HR audits, policy design, payroll advisory, talent acquisition frameworks,
+                people consultancy, and organisational restructuring support — built for East African businesses.</p>
+              <a href="#cta" class="flip-back-cta">Engage Us →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <span class="card-icon">🧾</span>
+              <h3 class="card-title">Tax Compliance</h3>
+              <p class="card-desc">Our services help you grasp the complexities of indirect and direct taxes — keeping
+                you informed of responsibilities, liabilities, and any legislative changes that impact your operations.
+              </p>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-label">What we deliver</div>
+              <p class="flip-back-text">Corporate tax planning, VAT advisory, transfer pricing, KRA/URA/RRA compliance,
+                wealth management, and tax dispute resolution — navigating East Africa's evolving regulatory landscape.
+              </p>
+              <a href="#cta" class="flip-back-cta">Engage Us →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="flip-card">
+          <div class="flip-card-inner">
+            <div class="flip-front">
+              <span class="card-icon">🔗</span>
+              <h3 class="card-title">Business Services & Outsourcing</h3>
+              <p class="card-desc">Lloyd BSO provides a full range of finance, accounting and business services to
+                support your growth and help manage changing regulatory and reporting requirements across global
+                markets.</p>
+            </div>
+            <div class="flip-back">
+              <div class="flip-back-label">What we deliver</div>
+              <p class="flip-back-text">Bookkeeping, management accounts, payroll processing, CFO advisory, corporate
+                finance, and back-office outsourcing — helping businesses within local markets and around the globe.</p>
+              <a href="#cta" class="flip-back-cta">Engage Us →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="section" id="why-us">
+      <div class="why-us-grid">
+        <div>
+          <p class="section-label">Why Choose Us</p>
+          <h2 class="section-title">Solutions that<br><span style="color:var(--accent)">drive results.</span></h2>
+          <p class="about-body">
+            Our services are designed to serve a wide range of clients, including businesses of all sizes, non-profit
+            organisations, government institutions, and private individuals. We have experience working with clients
+            across a variety of industries.
+            <br><br>
+            We work closely with our clients to understand their unique needs and objectives, and we tailor our services
+            to meet those needs. Our team is committed to delivering timely, responsive, and proactive service that
+            exceeds our clients' expectations.
+          </p>
+        </div>
+        <div class="why-us-industries">
+          <div class="industry-box">
+            <div class="industry-icon">🏭</div>
+            <div class="industry-name">Manufacturing</div>
+            <div class="industry-desc">Full-cycle audit, tax structuring and operational consulting for manufacturers
+              across East Africa.</div>
+          </div>
+          <div class="industry-box">
+            <div class="industry-icon">🏦</div>
+            <div class="industry-name">Financial Services</div>
+            <div class="industry-desc">Regulatory compliance, risk management and advisory for banks, SACCOs and
+              investment firms.</div>
+          </div>
+          <div class="industry-box">
+            <div class="industry-icon">🏥</div>
+            <div class="industry-name">Healthcare</div>
+            <div class="industry-desc">Financial reporting, procurement audits and HR management for hospitals and
+              health networks.</div>
+          </div>
+          <div class="industry-box">
+            <div class="industry-icon">⛽</div>
+            <div class="industry-name">Oil & Gas</div>
+            <div class="industry-desc">Specialist audit, tax and enterprise technology solutions for energy sector
+              operators in the region.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OUR APPROACH – HORIZONTAL PIN -->
+    <div id="pin-section">
+      <div class="pin-sticky">
+        <p class="pin-label">Our Approach</p>
+        <div class="panels-row" id="panels-row">
+          <div class="panel">
+            <span class="panel-num">01</span>
+            <div class="panel-inner">
+              <div class="panel-bar"></div>
+              <h3 class="panel-title">Understand</h3>
+              <p class="panel-desc">We work closely with our clients to understand their unique needs and challenges.
+                Every engagement starts with listening — our goal is to help businesses succeed, and we don't stop until
+                it's done.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <span class="panel-num">02</span>
+            <div class="panel-inner">
+              <div class="panel-bar"></div>
+              <h3 class="panel-title">Analyse</h3>
+              <p class="panel-desc">We apply rigorous analytical frameworks to your financial and operational data. We
+                think beyond and strive to be your first port of call in all your business decisions — your most trusted
+                business advisor.</p>
+            </div>
+          </div>
+          <div class="panel">
+            <span class="panel-num">03</span>
+            <div class="panel-inner">
+              <div class="panel-bar"></div>
+              <h3 class="panel-title">Advise</h3>
+              <p class="panel-desc">We bring functional and industry expertise, unparalleled insights, and actionable
+                recommendations — with the commitment and know-how to unlock all-round value across your organisation.
+              </p>
+            </div>
+          </div>
+          <div class="panel">
+            <span class="panel-num">04</span>
+            <div class="panel-inner">
+              <div class="panel-bar"></div>
+              <h3 class="panel-title">Impact</h3>
+              <p class="panel-desc">To us, impact means impact to our clients and their businesses, ideas and actions
+                that look out for the greater good. We serve businesses of all sizes, non-profits, government
+                institutions and private individuals.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-front">
-          <span class="card-icon">📈</span>
-          <h3 class="card-title">Management Consulting</h3>
-          <p class="card-desc">Strategies to achieve sustainable competitive advantage and improve your organisation from the ground up.</p>
-        </div>
-        <div class="flip-back">
-          <div class="flip-back-label">What we deliver</div>
-          <p class="flip-back-text">Business transformation, operational efficiency, market entry strategy, and performance management frameworks built for scale.</p>
-          <a href="#cta" class="flip-back-cta">Engage Us →</a>
-        </div>
+    <!-- PARALLAX BAND -->
+    <div id="parallax-band">
+      <div class="parallax-inner" id="parallax-inner"></div>
+      <div class="parallax-text">
+        <h2>Solutions that<br><span>drive results.</span></h2>
       </div>
     </div>
 
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-front">
-          <span class="card-icon">💻</span>
-          <h3 class="card-title">Enterprise Technology</h3>
-          <p class="card-desc">We help you determine the capabilities, systems and people you need to succeed in a digital-first world.</p>
+    <!-- TESTIMONIALS -->
+    <section class="section" id="testimonials">
+      <div style="text-align:center;margin-bottom:clamp(40px,6vw,64px)">
+        <p class="section-label">What Clients Say</p>
+        <h2 class="section-title">Trusted by<br><span style="color:var(--accent)">leaders</span></h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <p class="testi-quote">Lloyd Cooper brought a level of rigour and professionalism to our audit that we hadn't
+            experienced before. They truly understand the East African business landscape and navigate its complexities
+            with ease.</p>
+          <div class="testi-attribution">
+            <div class="testi-avatar">JM</div>
+            <div>
+              <div class="testi-name">James Mwangi</div>
+              <div class="testi-role">CFO, Horizon Capital — Nairobi, Kenya</div>
+            </div>
+          </div>
         </div>
-        <div class="flip-back">
-          <div class="flip-back-label">What we deliver</div>
-          <p class="flip-back-text">Digital transformation roadmaps, ERP implementation, IT governance, and technology due diligence for acquisitions and mergers.</p>
-          <a href="#cta" class="flip-back-cta">Engage Us →</a>
+        <div class="testi-card">
+          <p class="testi-quote">Their tax advisory team saved us from significant exposure during a regulatory
+            transition. The guidance was timely, precise, and delivered with genuine care for our outcome.</p>
+          <div class="testi-attribution">
+            <div class="testi-avatar" style="background:var(--accent2)">GN</div>
+            <div>
+              <div class="testi-name">Grace Nakimera</div>
+              <div class="testi-role">CEO, BuildRight Uganda — Kampala, Uganda</div>
+            </div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <p class="testi-quote">The management consulting engagement transformed how we operate. Lloyd Cooper helped us
+            develop a roadmap that was detailed and executable — we knew exactly what to do next.</p>
+          <div class="testi-attribution">
+            <div class="testi-avatar" style="background:#5a7a6a">OH</div>
+            <div>
+              <div class="testi-name">Omar Hassan</div>
+              <div class="testi-role">Director, Afri-Trade Holdings — Mogadishu, Somalia</div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-front">
-          <span class="card-icon">👥</span>
-          <h3 class="card-title">Human Resource Management</h3>
-          <p class="card-desc">We optimise talent management through strategies that achieve a sustainable competitive advantage.</p>
+    <!-- OFFICES -->
+    <section id="locations">
+      <div style="max-width:640px">
+        <p class="section-label">Our Presence</p>
+        <h2 class="section-title">Four <span style="color:var(--accent)">countries,</span><br>one standard</h2>
+        <p style="font-size:15px;color:var(--muted);line-height:1.85;margin-top:20px;font-weight:300;max-width:520px;">
+          Our headquarters are in Nairobi, with branches in Uganda, Rwanda, and Somalia — delivering the same
+          high-quality, tailored solutions wherever you are in East Africa.</p>
+      </div>
+      <div class="locations-grid">
+        <div class="location-box">
+          <span class="location-flag">🇰🇪</span>
+          <div class="location-city">Nairobi</div>
+          <div class="location-country">Kenya</div>
+          <div class="location-hq">Headquarters</div>
         </div>
-        <div class="flip-back">
-          <div class="flip-back-label">What we deliver</div>
-          <p class="flip-back-text">HR audits, policy design, payroll advisory, talent acquisition frameworks, and organisational restructuring support.</p>
-          <a href="#cta" class="flip-back-cta">Engage Us →</a>
+        <div class="location-box">
+          <span class="location-flag">🇺🇬</span>
+          <div class="location-city">Kampala</div>
+          <div class="location-country">Uganda</div>
+        </div>
+        <div class="location-box">
+          <span class="location-flag">🇷🇼</span>
+          <div class="location-city">Kigali</div>
+          <div class="location-country">Rwanda</div>
+        </div>
+        <div class="location-box">
+          <span class="location-flag">🇸🇴</span>
+          <div class="location-city">Mogadishu</div>
+          <div class="location-country">Somalia</div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-front">
-          <span class="card-icon">🧾</span>
-          <h3 class="card-title">Tax Compliance</h3>
-          <p class="card-desc">We help you navigate indirect and direct taxes, keeping you informed of responsibilities and liabilities.</p>
-        </div>
-        <div class="flip-back">
-          <div class="flip-back-label">What we deliver</div>
-          <p class="flip-back-text">Corporate tax planning, VAT advisory, transfer pricing, KRA/URA/RRA compliance, and tax dispute resolution services.</p>
-          <a href="#cta" class="flip-back-cta">Engage Us →</a>
-        </div>
-      </div>
-    </div>
+    <!-- CTA -->
+    <section id="cta">
+      <div class="cta-glow"></div>
+      <h2 class="cta-title">Let's make<br><span>an impact</span><br>together</h2>
+      <a href="mailto:info@lloydcooper.co.ke" class="cta-btn">Start a Conversation</a>
+    </section>
 
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="flip-front">
-          <span class="card-icon">🔗</span>
-          <h3 class="card-title">Business Services & Outsourcing</h3>
-          <p class="card-desc">A full range of finance and accounting services to support growth and manage regulatory requirements.</p>
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <div class="footer-logo-mark">LC</div>
+            LLOYD COOPER GROUP
+          </div>
+          <p class="footer-tagline">Making an impact that matters — for our clients, their businesses, and the
+            communities we serve across East Africa.</p>
         </div>
-        <div class="flip-back">
-          <div class="flip-back-label">What we deliver</div>
-          <p class="flip-back-text">Bookkeeping, management accounts, payroll processing, CFO advisory, and back-office outsourcing for growing organisations.</p>
-          <a href="#cta" class="flip-back-cta">Engage Us →</a>
+        <div class="footer-col">
+          <h4>Services</h4>
+          <a href="#services">Audit & Assurance</a>
+          <a href="#services">Tax Compliance</a>
+          <a href="#services">Management Consulting</a>
+          <a href="#services">Enterprise Technology</a>
+          <a href="#services">HR Management</a>
+          <a href="#services">Business Outsourcing</a>
         </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- OUR APPROACH – HORIZONTAL PIN -->
-<div id="pin-section">
-  <div class="pin-sticky">
-    <p class="pin-label">Our Approach</p>
-    <div class="panels-row" id="panels-row">
-      <div class="panel">
-        <span class="panel-num">01</span>
-        <div class="panel-inner">
-          <div class="panel-bar"></div>
-          <h3 class="panel-title">UNDERSTAND</h3>
-          <p class="panel-desc">We invest time in deeply understanding your business, sector, and goals. Every engagement starts with listening — identifying the unique challenges and opportunities that define your situation.</p>
+        <div class="footer-col">
+          <h4>Offices</h4>
+          <a href="#locations">Nairobi, Kenya (HQ)</a>
+          <a href="#locations">Kampala, Uganda</a>
+          <a href="#locations">Kigali, Rwanda</a>
+          <a href="#locations">Mogadishu, Somalia</a>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <a href="mailto:info@lloydcooper.co.ke">info@lloydcooper.co.ke</a>
+          <a href="https://www.lloydcooper.co.ke" target="_blank">www.lloydcooper.co.ke</a>
+          <a href="#cta">Request a Quote</a>
         </div>
       </div>
-      <div class="panel">
-        <span class="panel-num">02</span>
-        <div class="panel-inner">
-          <div class="panel-bar"></div>
-          <h3 class="panel-title">ANALYSE</h3>
-          <p class="panel-desc">Our expert teams apply rigorous analytical frameworks to your financial and operational data, uncovering insights that drive informed decisions and reduce risk.</p>
-        </div>
+      <div class="footer-bottom">
+        <div class="foot-copy">© 2025 Lloyd Cooper Group. All rights reserved.</div>
+        <div class="foot-tagline">Impact that matters.</div>
       </div>
-      <div class="panel">
-        <span class="panel-num">03</span>
-        <div class="panel-inner">
-          <div class="panel-bar"></div>
-          <h3 class="panel-title">ADVISE</h3>
-          <p class="panel-desc">We deliver clear, tailored recommendations backed by experience across East Africa and beyond — giving you the clarity to act with confidence in complex regulatory environments.</p>
-        </div>
-      </div>
-      <div class="panel">
-        <span class="panel-num">04</span>
-        <div class="panel-inner">
-          <div class="panel-bar"></div>
-          <h3 class="panel-title">IMPACT</h3>
-          <p class="panel-desc">Every engagement is measured by the impact it creates — for your business, your people, and the broader community. Sustainable outcomes are the standard we hold ourselves to.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+    </footer>
 
-<!-- PARALLAX BAND -->
-<div id="parallax-band">
-  <div class="parallax-inner" id="parallax-inner"></div>
-  <div class="parallax-text">
-    <h2>IMPACT THAT<br><span>MATTERS</span></h2>
-  </div>
-</div>
+    <!-- CDNs -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script>
+      gsap.registerPlugin(ScrollTrigger);
 
-<!-- TESTIMONIALS -->
-<section class="section" id="testimonials">
-  <div style="text-align:center;margin-bottom:clamp(40px,6vw,64px)">
-    <p class="section-label">What Clients Say</p>
-    <h2 class="section-title">TRUSTED BY<br><span style="color:var(--accent)">LEADERS</span></h2>
-  </div>
-  <div class="testi-grid">
-    <div class="testi-card">
-      <p class="testi-quote">Lloyd Cooper brought a level of rigour and professionalism to our audit that we hadn't experienced before. They truly understand the East African business landscape.</p>
-      <div class="testi-name">James Mwangi</div>
-      <div class="testi-role">CFO, Horizon Capital — Nairobi</div>
-    </div>
-    <div class="testi-card">
-      <p class="testi-quote">Their tax advisory team saved us significant exposure during a regulatory transition. The guidance was timely, precise, and delivered with genuine care for our outcome.</p>
-      <div class="testi-name">Grace Nakimera</div>
-      <div class="testi-role">CEO, BuildRight Uganda — Kampala</div>
-    </div>
-    <div class="testi-card">
-      <p class="testi-quote">The HR and management consulting engagement transformed how we operate. We now have systems and people strategies that actually scale with our ambitions.</p>
-      <div class="testi-name">Omar Hassan</div>
-      <div class="testi-role">Director, Afri-Trade Holdings — Mogadishu</div>
-    </div>
-  </div>
-</section>
+      /* ── 1. LENIS ── */
+      const lenis = new Lenis({ duration: 1.1, easing: t => 1 - Math.pow(1 - t, 4) });
+      gsap.ticker.add(t => lenis.raf(t * 1000));
+      gsap.ticker.lagSmoothing(0);
+      lenis.on('scroll', ScrollTrigger.update);
 
-<!-- OFFICES -->
-<section id="locations">
-  <div style="max-width:640px">
-    <p class="section-label">Our Presence</p>
-    <h2 class="section-title">FOUR <span style="color:var(--accent)">COUNTRIES</span><br>ONE STANDARD</h2>
-  </div>
-  <div class="locations-grid">
-    <div class="location-box">
-      <span class="location-flag">🇰🇪</span>
-      <div class="location-city">Nairobi</div>
-      <div class="location-country">Kenya</div>
-      <div class="location-hq">Headquarters</div>
-    </div>
-    <div class="location-box">
-      <span class="location-flag">🇺🇬</span>
-      <div class="location-city">Kampala</div>
-      <div class="location-country">Uganda</div>
-    </div>
-    <div class="location-box">
-      <span class="location-flag">🇷🇼</span>
-      <div class="location-city">Kigali</div>
-      <div class="location-country">Rwanda</div>
-    </div>
-    <div class="location-box">
-      <span class="location-flag">🇸🇴</span>
-      <div class="location-city">Mogadishu</div>
-      <div class="location-country">Somalia</div>
-    </div>
-  </div>
-</section>
+      /* ── 2. CURSOR ── */
+      if (window.matchMedia('(pointer:fine)').matches) {
+        const cur = document.getElementById('cur');
+        const ring = document.getElementById('cur-ring');
+        let mx = 0, my = 0, rx = 0, ry = 0;
+        document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+        gsap.ticker.add(() => {
+          gsap.set(cur, { x: mx, y: my });
+          rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
+          gsap.set(ring, { x: rx, y: ry });
+        });
+      }
 
-<!-- CTA -->
-<section id="cta">
-  <div class="cta-glow"></div>
-  <h2 class="cta-title">LET'S MAKE<br><span>AN IMPACT</span><br>TOGETHER</h2>
-  <a href="/cdn-cgi/l/email-protection#234a4d454c634f4f4c5a47404c4c5346510d404c4e" class="cta-btn">Start a Conversation</a>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <div class="footer-logo">
-        <div class="footer-logo-mark">LC</div>
-        LLOYD COOPER GROUP
-      </div>
-      <p class="footer-tagline">Making an impact that matters — for our clients, their businesses, and the communities we serve across East Africa.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Services</h4>
-      <a href="#services">Audit & Assurance</a>
-      <a href="#services">Tax Compliance</a>
-      <a href="#services">Management Consulting</a>
-      <a href="#services">Enterprise Technology</a>
-      <a href="#services">HR Management</a>
-      <a href="#services">Business Outsourcing</a>
-    </div>
-    <div class="footer-col">
-      <h4>Offices</h4>
-      <a href="#">Nairobi, Kenya (HQ)</a>
-      <a href="#">Kampala, Uganda</a>
-      <a href="#">Kigali, Rwanda</a>
-      <a href="#">Mogadishu, Somalia</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <a href="/cdn-cgi/l/email-protection#87eee9e1e8c7ebebe8fee3e4e8e8f7e2f5a9e4e8ea"><span class="__cf_email__" data-cfemail="543d3a323b1438383b2d30373b3b2431267a373b39">[email&#160;protected]</span></a>
-      <a href="tel:+254000000000">+254 000 000 000</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="foot-copy">© 2025 Lloyd Cooper Group. All rights reserved.</div>
-    <div class="foot-tagline">Impact that matters.</div>
-  </div>
-</footer>
-
-<!-- CDNs -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script>
-gsap.registerPlugin(ScrollTrigger);
-
-/* ── 1. LENIS ── */
-const lenis = new Lenis({ duration: 1.1, easing: t => 1 - Math.pow(1 - t, 4) });
-gsap.ticker.add(t => lenis.raf(t * 1000));
-gsap.ticker.lagSmoothing(0);
-lenis.on('scroll', ScrollTrigger.update);
-
-/* ── 2. CURSOR ── */
-if (window.matchMedia('(pointer:fine)').matches) {
-  const cur  = document.getElementById('cur');
-  const ring = document.getElementById('cur-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
-  gsap.ticker.add(() => {
-    gsap.set(cur,  { x: mx, y: my });
-    rx += (mx - rx) * 0.1; ry += (my - ry) * 0.1;
-    gsap.set(ring, { x: rx, y: ry });
-  });
-}
-
-/* ── 3. NAVBAR ── */
-const navbar = document.getElementById('navbar');
-ScrollTrigger.create({
-  start: 'top -60px',
-  onUpdate: s => navbar.classList.toggle('scrolled', s.progress > 0)
-});
-
-/* ── 4. HERO CAROUSEL ── */
-const slides = document.querySelectorAll('.hero-slide');
-const dotsContainer = document.getElementById('hero-dots');
-let currentSlide = 0, carouselTimer;
-
-slides.forEach((_, i) => {
-  const dot = document.createElement('div');
-  dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
-  dot.addEventListener('click', () => goToSlide(i));
-  dotsContainer.appendChild(dot);
-});
-
-function goToSlide(index) {
-  slides[currentSlide].classList.remove('active');
-  dotsContainer.children[currentSlide].classList.remove('active');
-  currentSlide = (index + slides.length) % slides.length;
-  slides[currentSlide].classList.add('active');
-  dotsContainer.children[currentSlide].classList.add('active');
-  resetTimer();
-}
-function resetTimer() {
-  clearInterval(carouselTimer);
-  carouselTimer = setInterval(() => goToSlide(currentSlide + 1), 5000);
-}
-resetTimer();
-
-/* ── 5. TYPEWRITER ── */
-const typeEl   = document.getElementById('typewriter');
-const tw_words = ['MATTERS', 'LASTS', 'COUNTS', 'GROWS'];
-let tw_wordIdx = 0, tw_charIdx = 0, tw_deleting = false, tw_delay = 150;
-
-function typeLoop() {
-  const word = tw_words[tw_wordIdx];
-  if (tw_deleting) {
-    typeEl.textContent = word.slice(0, --tw_charIdx);
-    tw_delay = 75;
-  } else {
-    typeEl.textContent = word.slice(0, ++tw_charIdx);
-    tw_delay = 150;
-  }
-  if (!tw_deleting && tw_charIdx === word.length) {
-    tw_deleting = true; tw_delay = 1800;
-  } else if (tw_deleting && tw_charIdx === 0) {
-    tw_deleting = false;
-    tw_wordIdx  = (tw_wordIdx + 1) % tw_words.length;
-    tw_delay    = 400;
-  }
-  setTimeout(typeLoop, tw_delay);
-}
-setTimeout(typeLoop, 1600);
-
-/* ── 6. HERO ENTRANCE ── */
-gsap.set(['.hero-eyebrow','.hero-sub','.hero-cta','.scroll-hint'], { opacity: 0, y: 18 });
-gsap.set('.word', { opacity: 0, y: 110 });
-gsap.timeline({ defaults: { ease: 'power4.out' } })
-  .to('.word',         { y: 0, opacity: 1, duration: 1.1, stagger: 0.08 }, 0.1)
-  .to('.hero-eyebrow', { y: 0, opacity: 1, duration: 0.7 }, 0.5)
-  .to('.hero-sub',     { y: 0, opacity: 1, duration: 0.7 }, 0.65)
-  .to('.hero-cta',     { y: 0, opacity: 1, duration: 0.7 }, 0.8)
-  .to('.scroll-hint',  { y: 0, opacity: 0.3, duration: 0.5 }, 1.0);
-
-/* ── 7. BATCHED SCROLL REVEALS (bidirectional) ── */
-const revealGroups = [
-  { sel: '.section-label', from: { opacity: 0, y: 16 } },
-  { sel: '.section-title, .panel-title, .cta-title', from: { opacity: 0, y: 55 } },
-  { sel: '.stat-box, .cta-btn', from: { opacity: 0, scale: 0.88 } },
-  { sel: '.location-box', from: { opacity: 0, y: 30 } },
-  { sel: '.testi-card:nth-child(1)', from: { opacity: 0, x: -50 } },
-  { sel: '.testi-card:nth-child(2)', from: { opacity: 0, y: 50 } },
-  { sel: '.testi-card:nth-child(3)', from: { opacity: 0, x: 50 } },
-  { sel: '.panel-desc, .card-desc', from: { opacity: 0 } },
-];
-
-revealGroups.forEach(({ sel, from }) => {
-  const els = gsap.utils.toArray(sel);
-  if (!els.length) return;
-  gsap.set(els, from);
-  ScrollTrigger.batch(els, {
-    start: 'top 90%',
-    onEnter:     batch => gsap.to(batch, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.85, ease: 'power3.out', stagger: 0.09 }),
-    onLeaveBack: batch => gsap.set(batch, from),
-  });
-});
-
-/* ── 8. COUNTERS (bidirectional) ── */
-document.querySelectorAll('.counter').forEach(el => {
-  const target = +el.dataset.to;
-  let tween;
-  ScrollTrigger.create({
-    trigger: el, start: 'top 88%',
-    onEnter: () => {
-      if (tween) tween.kill();
-      el.textContent = '0';
-      tween = gsap.to({ n: 0 }, {
-        n: target, duration: 1.6, ease: 'power2.out',
-        onUpdate() { el.textContent = Math.round(this.targets()[0].n); }
+      /* ── 3. NAVBAR ── */
+      const navbar = document.getElementById('navbar');
+      ScrollTrigger.create({
+        start: 'top -60px',
+        onUpdate: s => navbar.classList.toggle('scrolled', s.progress > 0)
       });
-    },
-    onLeaveBack: () => { if (tween) tween.kill(); el.textContent = '0'; },
-  });
-});
 
-/* ── 9. HORIZONTAL PINNED SCROLL ── */
-const row        = document.getElementById('panels-row');
-const pinSection = document.getElementById('pin-section');
-gsap.to(row, {
-  x: () => -(row.scrollWidth - window.innerWidth),
-  ease: 'none',
-  scrollTrigger: {
-    trigger: pinSection, pin: pinSection,
-    pinSpacing: true, anticipatePin: 1,
-    start: 'top top',
-    end: () => '+=' + (row.scrollWidth - window.innerWidth),
-    scrub: 0.8, invalidateOnRefresh: true,
-  }
-});
+      /* ── 4. HERO CAROUSEL ── */
+      const slides = document.querySelectorAll('.hero-slide');
+      const dotsContainer = document.getElementById('hero-dots');
+      let currentSlide = 0, carouselTimer;
 
-/* ── 10. PARALLAX TEXT (bidirectional) ── */
-gsap.set('.parallax-text h2', { opacity: 0, y: 55 });
-ScrollTrigger.create({
-  trigger: '#parallax-band', start: 'top 75%',
-  onEnter:     () => gsap.to('.parallax-text h2', { opacity: 1, y: 0,  duration: 0.85, ease: 'power3.out' }),
-  onLeaveBack: () => gsap.to('.parallax-text h2', { opacity: 0, y: 55, duration: 0.5 }),
-});
-gsap.to('#parallax-inner', {
-  yPercent: 22, ease: 'none',
-  scrollTrigger: { trigger: '#parallax-band', start: 'top bottom', end: 'bottom top', scrub: true }
-});
-
-/* ── 11. SCROLL PROGRESS BAR ── */
-const progressBar = document.getElementById('progress-bar');
-window.addEventListener('scroll', () => {
-  const scrolled = window.scrollY;
-  const total    = document.documentElement.scrollHeight - window.innerHeight;
-  progressBar.style.width = (scrolled / total * 100) + '%';
-}, { passive: true });
-
-/* ── 12. FLIP CARD SCROLL REVEAL (stagger slide-up) ── */
-gsap.utils.toArray('.flip-card').forEach((card, i) => {
-  gsap.from(card, {
-    opacity: 0,
-    y: 70,
-    rotateX: 8,
-    duration: 0.8,
-    ease: 'power3.out',
-    delay: (i % 3) * 0.13,
-    scrollTrigger: { trigger: card, start: 'top 88%' }
-  });
-});
-
-/* ── 13. LOCATION BOXES — cascade slide-in from alternating sides ── */
-gsap.utils.toArray('.location-box').forEach((box, i) => {
-  gsap.from(box, {
-    opacity: 0,
-    x: i % 2 === 0 ? -60 : 60,
-    y: 20,
-    duration: 0.75,
-    ease: 'power3.out',
-    delay: i * 0.1,
-    scrollTrigger: { trigger: box, start: 'top 90%' }
-  });
-});
-
-/* ── 14. TESTIMONIAL 3D TILT ON MOUSE MOVE ── */
-if (window.matchMedia('(pointer:fine)').matches) {
-  document.querySelectorAll('.testi-card').forEach(card => {
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const cx   = rect.left + rect.width  / 2;
-      const cy   = rect.top  + rect.height / 2;
-      const dx   = (e.clientX - cx) / (rect.width  / 2);
-      const dy   = (e.clientY - cy) / (rect.height / 2);
-      gsap.to(card, {
-        rotateY:  dx * 8,
-        rotateX: -dy * 8,
-        scale: 1.02,
-        duration: 0.4,
-        ease: 'power2.out',
-        transformPerspective: 800,
+      slides.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
       });
-    });
-    card.addEventListener('mouseleave', () => {
-      gsap.to(card, { rotateY: 0, rotateX: 0, scale: 1, duration: 0.6, ease: 'elastic.out(1,0.6)' });
-    });
-  });
-}
 
-/* ── 15. STAT BOX TILT ON HOVER ── */
-if (window.matchMedia('(pointer:fine)').matches) {
-  document.querySelectorAll('.stat-box').forEach(box => {
-    box.style.transition = 'border-color 0.3s';
-    box.addEventListener('mousemove', e => {
-      const rect = box.getBoundingClientRect();
-      const dx = (e.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
-      const dy = (e.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
-      gsap.to(box, { rotateY: dx * 6, rotateX: -dy * 6, scale: 1.03, duration: 0.3, ease: 'power2.out', transformPerspective: 600 });
-    });
-    box.addEventListener('mouseleave', () => {
-      gsap.to(box, { rotateY: 0, rotateX: 0, scale: 1, duration: 0.5, ease: 'elastic.out(1,0.6)' });
-    });
-  });
-}
+      function goToSlide(index) {
+        slides[currentSlide].classList.remove('active');
+        dotsContainer.children[currentSlide].classList.remove('active');
+        currentSlide = (index + slides.length) % slides.length;
+        slides[currentSlide].classList.add('active');
+        dotsContainer.children[currentSlide].classList.add('active');
+        resetTimer();
+      }
+      function resetTimer() {
+        clearInterval(carouselTimer);
+        carouselTimer = setInterval(() => goToSlide(currentSlide + 1), 5000);
+      }
+      resetTimer();
 
-/* ── 16. MAGNETIC BUTTONS (hero CTA + main CTA) ── */
-if (window.matchMedia('(pointer:fine)').matches) {
-  document.querySelectorAll('.hero-cta, .cta-btn').forEach(btn => {
-    btn.addEventListener('mousemove', e => {
-      const rect = btn.getBoundingClientRect();
-      const dx = e.clientX - rect.left - rect.width  / 2;
-      const dy = e.clientY - rect.top  - rect.height / 2;
-      gsap.to(btn, { x: dx * 0.35, y: dy * 0.35, duration: 0.4, ease: 'power2.out' });
-    });
-    btn.addEventListener('mouseleave', () => {
-      gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' });
-    });
-  });
-}
+      /* ── 5. TYPEWRITER ── */
+      const typeEl = document.getElementById('typewriter');
+      const tw_words = ['MATTERS', 'LASTS', 'COUNTS', 'GROWS'];
+      let tw_wordIdx = 0, tw_charIdx = 0, tw_deleting = false, tw_delay = 150;
 
-/* ── 17. PANEL TITLE STAGGER REVEAL ON SCRUB ── */
-gsap.utils.toArray('.panel').forEach(panel => {
-  const title = panel.querySelector('.panel-title');
-  const bar   = panel.querySelector('.panel-bar');
-  const desc  = panel.querySelector('.panel-desc');
-  gsap.set([title, bar, desc], { opacity: 0, y: 30 });
-  ScrollTrigger.create({
-    trigger: panel,
-    containerAnimation: gsap.to(row, { x: -(row.scrollWidth - window.innerWidth), ease: 'none' }),
-    start: 'left 70%',
-    onEnter: () => gsap.to([bar, title, desc], { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out' }),
-    onLeaveBack: () => gsap.set([bar, title, desc], { opacity: 0, y: 30 }),
-  });
-});
+      function typeLoop() {
+        const word = tw_words[tw_wordIdx];
+        if (tw_deleting) {
+          typeEl.textContent = word.slice(0, --tw_charIdx);
+          tw_delay = 75;
+        } else {
+          typeEl.textContent = word.slice(0, ++tw_charIdx);
+          tw_delay = 150;
+        }
+        if (!tw_deleting && tw_charIdx === word.length) {
+          tw_deleting = true; tw_delay = 1800;
+        } else if (tw_deleting && tw_charIdx === 0) {
+          tw_deleting = false;
+          tw_wordIdx = (tw_wordIdx + 1) % tw_words.length;
+          tw_delay = 400;
+        }
+        setTimeout(typeLoop, tw_delay);
+      }
+      setTimeout(typeLoop, 1600);
 
-/* ── 18. FOOTER LINK HOVER — slide underline ── */
-document.querySelectorAll('.footer-col a').forEach(link => {
-  link.style.position   = 'relative';
-  link.style.paddingBottom = '2px';
-  const line = document.createElement('span');
-  Object.assign(line.style, {
-    position: 'absolute', bottom: '0', left: '0',
-    width: '0%', height: '1px',
-    background: 'var(--accent)', transition: 'width 0.3s ease',
-    display: 'block',
-  });
-  link.appendChild(line);
-  link.addEventListener('mouseenter', () => { line.style.width = '100%'; });
-  link.addEventListener('mouseleave', () => { line.style.width = '0%'; });
-});
+      /* ── 6. HERO ENTRANCE ── */
+      gsap.set(['.hero-eyebrow', '.hero-sub', '.hero-cta', '.scroll-hint'], { opacity: 0, y: 18 });
+      gsap.set('.word', { opacity: 0, y: 110 });
+      gsap.timeline({ defaults: { ease: 'power4.out' } })
+        .to('.word', { y: 0, opacity: 1, duration: 1.1, stagger: 0.08 }, 0.1)
+        .to('.hero-eyebrow', { y: 0, opacity: 1, duration: 0.7 }, 0.5)
+        .to('.hero-sub', { y: 0, opacity: 1, duration: 0.7 }, 0.65)
+        .to('.hero-cta', { y: 0, opacity: 1, duration: 0.7 }, 0.8)
+        .to('.scroll-hint', { y: 0, opacity: 0.3, duration: 0.5 }, 1.0);
 
-</script>
-</body>
+      /* ── 7. BATCHED SCROLL REVEALS (bidirectional) ── */
+      const revealGroups = [
+        { sel: '.section-label', from: { opacity: 0, y: 16 } },
+        { sel: '.section-title, .panel-title, .cta-title', from: { opacity: 0, y: 55 } },
+        { sel: '.stat-box, .cta-btn', from: { opacity: 0, scale: 0.88 } },
+        { sel: '.location-box', from: { opacity: 0, y: 30 } },
+        { sel: '.testi-card:nth-child(1)', from: { opacity: 0, x: -50 } },
+        { sel: '.testi-card:nth-child(2)', from: { opacity: 0, y: 50 } },
+        { sel: '.testi-card:nth-child(3)', from: { opacity: 0, x: 50 } },
+        { sel: '.panel-desc, .card-desc', from: { opacity: 0 } },
+      ];
+
+      revealGroups.forEach(({ sel, from }) => {
+        const els = gsap.utils.toArray(sel);
+        if (!els.length) return;
+        gsap.set(els, from);
+        ScrollTrigger.batch(els, {
+          start: 'top 90%',
+          onEnter: batch => gsap.to(batch, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.85, ease: 'power3.out', stagger: 0.09 }),
+          onLeaveBack: batch => gsap.set(batch, from),
+        });
+      });
+
+      /* ── 8. COUNTERS (bidirectional) ── */
+      document.querySelectorAll('.counter').forEach(el => {
+        const target = +el.dataset.to;
+        let tween;
+        ScrollTrigger.create({
+          trigger: el, start: 'top 88%',
+          onEnter: () => {
+            if (tween) tween.kill();
+            el.textContent = '0';
+            tween = gsap.to({ n: 0 }, {
+              n: target, duration: 1.6, ease: 'power2.out',
+              onUpdate() { el.textContent = Math.round(this.targets()[0].n); }
+            });
+          },
+          onLeaveBack: () => { if (tween) tween.kill(); el.textContent = '0'; },
+        });
+      });
+
+      /* ── 9. HORIZONTAL PINNED SCROLL ── */
+      const row = document.getElementById('panels-row');
+      const pinSection = document.getElementById('pin-section');
+      gsap.to(row, {
+        x: () => -(row.scrollWidth - window.innerWidth),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: pinSection, pin: pinSection,
+          pinSpacing: true, anticipatePin: 1,
+          start: 'top top',
+          end: () => '+=' + (row.scrollWidth - window.innerWidth),
+          scrub: 0.8, invalidateOnRefresh: true,
+        }
+      });
+
+      /* ── 10. PARALLAX TEXT (bidirectional) ── */
+      gsap.set('.parallax-text h2', { opacity: 0, y: 55 });
+      ScrollTrigger.create({
+        trigger: '#parallax-band', start: 'top 75%',
+        onEnter: () => gsap.to('.parallax-text h2', { opacity: 1, y: 0, duration: 0.85, ease: 'power3.out' }),
+        onLeaveBack: () => gsap.to('.parallax-text h2', { opacity: 0, y: 55, duration: 0.5 }),
+      });
+      gsap.to('#parallax-inner', {
+        yPercent: 22, ease: 'none',
+        scrollTrigger: { trigger: '#parallax-band', start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+
+      /* ── 11. SCROLL PROGRESS BAR ── */
+      const progressBar = document.getElementById('progress-bar');
+      window.addEventListener('scroll', () => {
+        const scrolled = window.scrollY;
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        progressBar.style.width = (scrolled / total * 100) + '%';
+      }, { passive: true });
+
+      /* ── 12. FLIP CARD SCROLL REVEAL (stagger slide-up) ── */
+      gsap.utils.toArray('.flip-card').forEach((card, i) => {
+        gsap.from(card, {
+          opacity: 0,
+          y: 70,
+          rotateX: 8,
+          duration: 0.8,
+          ease: 'power3.out',
+          delay: (i % 3) * 0.13,
+          scrollTrigger: { trigger: card, start: 'top 88%' }
+        });
+      });
+
+      /* ── 13. LOCATION BOXES — cascade slide-in from alternating sides ── */
+      gsap.utils.toArray('.location-box').forEach((box, i) => {
+        gsap.from(box, {
+          opacity: 0,
+          x: i % 2 === 0 ? -60 : 60,
+          y: 20,
+          duration: 0.75,
+          ease: 'power3.out',
+          delay: i * 0.1,
+          scrollTrigger: { trigger: box, start: 'top 90%' }
+        });
+      });
+
+      /* ── 14. TESTIMONIAL 3D TILT ON MOUSE MOVE ── */
+      if (window.matchMedia('(pointer:fine)').matches) {
+        document.querySelectorAll('.testi-card').forEach(card => {
+          card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const dx = (e.clientX - cx) / (rect.width / 2);
+            const dy = (e.clientY - cy) / (rect.height / 2);
+            gsap.to(card, {
+              rotateY: dx * 8,
+              rotateX: -dy * 8,
+              scale: 1.02,
+              duration: 0.4,
+              ease: 'power2.out',
+              transformPerspective: 800,
+            });
+          });
+          card.addEventListener('mouseleave', () => {
+            gsap.to(card, { rotateY: 0, rotateX: 0, scale: 1, duration: 0.6, ease: 'elastic.out(1,0.6)' });
+          });
+        });
+      }
+
+      /* ── 15. STAT BOX TILT ON HOVER ── */
+      if (window.matchMedia('(pointer:fine)').matches) {
+        document.querySelectorAll('.stat-box').forEach(box => {
+          box.style.transition = 'border-color 0.3s';
+          box.addEventListener('mousemove', e => {
+            const rect = box.getBoundingClientRect();
+            const dx = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+            const dy = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+            gsap.to(box, { rotateY: dx * 6, rotateX: -dy * 6, scale: 1.03, duration: 0.3, ease: 'power2.out', transformPerspective: 600 });
+          });
+          box.addEventListener('mouseleave', () => {
+            gsap.to(box, { rotateY: 0, rotateX: 0, scale: 1, duration: 0.5, ease: 'elastic.out(1,0.6)' });
+          });
+        });
+      }
+
+      /* ── 16. MAGNETIC BUTTONS (hero CTA + main CTA) ── */
+      if (window.matchMedia('(pointer:fine)').matches) {
+        document.querySelectorAll('.hero-cta, .cta-btn').forEach(btn => {
+          btn.addEventListener('mousemove', e => {
+            const rect = btn.getBoundingClientRect();
+            const dx = e.clientX - rect.left - rect.width / 2;
+            const dy = e.clientY - rect.top - rect.height / 2;
+            gsap.to(btn, { x: dx * 0.35, y: dy * 0.35, duration: 0.4, ease: 'power2.out' });
+          });
+          btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, { x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.5)' });
+          });
+        });
+      }
+
+      /* ── 17. PANEL TITLE STAGGER REVEAL ON SCRUB ── */
+      gsap.utils.toArray('.panel').forEach(panel => {
+        const title = panel.querySelector('.panel-title');
+        const bar = panel.querySelector('.panel-bar');
+        const desc = panel.querySelector('.panel-desc');
+        gsap.set([title, bar, desc], { opacity: 0, y: 30 });
+        ScrollTrigger.create({
+          trigger: panel,
+          containerAnimation: gsap.to(row, { x: -(row.scrollWidth - window.innerWidth), ease: 'none' }),
+          start: 'left 70%',
+          onEnter: () => gsap.to([bar, title, desc], { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out' }),
+          onLeaveBack: () => gsap.set([bar, title, desc], { opacity: 0, y: 30 }),
+        });
+      });
+
+      /* ── 18. FOOTER LINK HOVER — slide underline ── */
+      document.querySelectorAll('.footer-col a').forEach(link => {
+        link.style.position = 'relative';
+        link.style.paddingBottom = '2px';
+        const line = document.createElement('span');
+        Object.assign(line.style, {
+          position: 'absolute', bottom: '0', left: '0',
+          width: '0%', height: '1px',
+          background: 'var(--accent)', transition: 'width 0.3s ease',
+          display: 'block',
+        });
+        link.appendChild(line);
+        link.addEventListener('mouseenter', () => { line.style.width = '100%'; });
+        link.addEventListener('mouseleave', () => { line.style.width = '0%'; });
+      });
+      /* ── 19. MOBILE NAV — hamburger + drawer ── */
+      const hamburger = document.getElementById('hamburger');
+      const drawer = document.getElementById('nav-drawer');
+
+      function openDrawer() {
+        hamburger.classList.add('open');
+        drawer.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        lenis.stop();
+      }
+      function closeDrawer() {
+        hamburger.classList.remove('open');
+        drawer.classList.remove('open');
+        document.body.style.overflow = '';
+        lenis.start();
+      }
+
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.contains('open') ? closeDrawer() : openDrawer();
+      });
+
+      // Close drawer when a link is clicked
+      drawer.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', closeDrawer);
+      });
+
+      // Close on Escape key
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') closeDrawer();
+      });
+
+    </script>
+  </body>
+
 </html>
