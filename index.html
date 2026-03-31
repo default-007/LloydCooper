@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lloyd Cooper Group</title>
+    <title>Lloyd Cooper Consulting Group</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet" />
@@ -766,84 +766,6 @@
         line-height: 1.75;
       }
 
-      /* ── HORIZONTAL PIN ── */
-      #pin-section {
-        background: var(--black);
-        position: relative;
-        z-index: 1;
-        overflow: hidden;
-      }
-
-      .pin-sticky {
-        height: 100svh;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-      }
-
-      .pin-label {
-        font-size: 10px;
-        font-weight: 600;
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        color: rgba(244, 240, 232, 0.4);
-        padding: 0 var(--pad-x);
-        margin-bottom: clamp(24px, 4vw, 48px);
-      }
-
-      .panels-row {
-        display: flex;
-        width: 400vw;
-      }
-
-      .panel {
-        width: 100vw;
-        flex-shrink: 0;
-        padding: 0 var(--pad-x);
-        display: flex;
-        align-items: center;
-        position: relative;
-      }
-
-      .panel-num {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(120px, 20vw, 260px);
-        color: rgba(244, 240, 232, 0.04);
-        position: absolute;
-        right: var(--pad-x);
-        bottom: -30px;
-        line-height: 1;
-        user-select: none;
-        pointer-events: none;
-        font-weight: 300;
-      }
-
-      .panel-inner {
-        max-width: min(600px, 80vw);
-      }
-
-      .panel-bar {
-        width: 40px;
-        height: 1px;
-        background: var(--accent2);
-        margin-bottom: 24px;
-      }
-
-      .panel-title {
-        font-family: 'Cormorant Garamond', serif;
-        font-size: clamp(44px, 8vw, 80px);
-        font-weight: 300;
-        line-height: 1;
-        letter-spacing: -0.5px;
-        margin-bottom: 20px;
-        color: var(--white);
-      }
-
-      .panel-desc {
-        font-size: clamp(13px, 1.5vw, 15px);
-        color: rgba(244, 240, 232, 0.55);
-        line-height: 1.85;
-      }
 
       /* ── PARALLAX BAND ── */
       #parallax-band {
@@ -858,10 +780,19 @@
       .parallax-inner {
         position: absolute;
         inset: -25% 0;
+        background-image: url('https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=1800');
+        background-size: cover;
+        background-position: center;
+      }
+
+      .parallax-inner::after {
+        content: '';
+        position: absolute;
+        inset: 0;
         background:
-          radial-gradient(ellipse at 30% 50%, rgba(61, 107, 79, 0.12) 0%, transparent 55%),
-          radial-gradient(ellipse at 70% 50%, rgba(176, 125, 58, 0.08) 0%, transparent 50%),
-          var(--black);
+          radial-gradient(ellipse at 30% 50%, rgba(61, 107, 79, 0.45) 0%, transparent 55%),
+          radial-gradient(ellipse at 70% 50%, rgba(26, 31, 28, 0.5) 0%, transparent 50%),
+          rgba(26, 31, 28, 0.62);
       }
 
       .parallax-text {
@@ -1060,11 +991,38 @@
         background: var(--black);
       }
 
+      /* Parallax photo layer behind CTA */
+      .cta-parallax-bg {
+        position: absolute;
+        inset: -30% 0;
+        background-image: url('https://images.pexels.com/photos/3182781/pexels-photo-3182781.jpeg?auto=compress&cs=tinysrgb&w=1800');
+        background-size: cover;
+        background-position: center top;
+        z-index: 0;
+      }
+
+      .cta-parallax-bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse at 50% 60%, rgba(61, 107, 79, 0.35) 0%, transparent 60%),
+          rgba(26, 31, 28, 0.78);
+      }
+
       .cta-glow {
         position: absolute;
         inset: 0;
-        background: radial-gradient(ellipse at 50% 70%, rgba(61, 107, 79, 0.08) 0%, transparent 65%);
+        background: radial-gradient(ellipse at 50% 70%, rgba(61, 107, 79, 0.12) 0%, transparent 65%);
         pointer-events: none;
+        z-index: 1;
+      }
+
+      /* Ensure text sits above parallax layers */
+      .cta-title,
+      .cta-btn {
+        position: relative;
+        z-index: 2;
       }
 
       .cta-title {
@@ -1363,11 +1321,6 @@
           max-width: 100%;
         }
 
-        /* panel label padding */
-        .pin-label {
-          padding: 0 var(--pad-x);
-        }
-
         /* hero title tighter */
         .hero-title {
           line-height: 1.0;
@@ -1406,11 +1359,674 @@
           grid-template-columns: 1fr !important;
         }
       }
+
+      /* ══════════════════════════════════════════
+         PAGE LOADER
+         ══════════════════════════════════════════ */
+      #lc-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: var(--black);
+        pointer-events: all;
+      }
+
+      /* Curtain wipe — two halves that slide out left/right */
+      #lc-loader::before,
+      #lc-loader::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 50%;
+        background: var(--black);
+        transition: none;
+        /* driven by GSAP */
+        z-index: 1;
+      }
+
+      #lc-loader::before {
+        left: 0;
+      }
+
+      #lc-loader::after {
+        right: 0;
+      }
+
+      /* ── Logo mark ── */
+      .loader-logo {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      .loader-mark {
+        width: 56px;
+        height: 56px;
+        background: var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 22px;
+        font-weight: 600;
+        color: #fff;
+        letter-spacing: 0;
+        flex-shrink: 0;
+      }
+
+      .loader-name {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(13px, 2vw, 16px);
+        font-weight: 600;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: rgba(244, 240, 232, 0.85);
+      }
+
+      /* ── Progress bar ── */
+      .loader-bar-wrap {
+        position: relative;
+        z-index: 2;
+        width: clamp(160px, 28vw, 260px);
+        height: 1px;
+        background: rgba(244, 240, 232, 0.12);
+        margin-top: 32px;
+        overflow: hidden;
+        opacity: 0;
+      }
+
+      .loader-bar-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, var(--accent), var(--accent2));
+      }
+
+      /* ── Tagline ── */
+      .loader-tagline {
+        position: relative;
+        z-index: 2;
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        color: rgba(244, 240, 232, 0.3);
+        margin-top: 18px;
+        opacity: 0;
+      }
+
+      /* ── Animated corner lines ── */
+      .loader-corner {
+        position: absolute;
+        z-index: 2;
+        width: 28px;
+        height: 28px;
+      }
+
+      .loader-corner--tl {
+        top: clamp(20px, 4vw, 48px);
+        left: clamp(20px, 4vw, 48px);
+        border-top: 1px solid var(--accent);
+        border-left: 1px solid var(--accent);
+      }
+
+      .loader-corner--tr {
+        top: clamp(20px, 4vw, 48px);
+        right: clamp(20px, 4vw, 48px);
+        border-top: 1px solid var(--accent);
+        border-right: 1px solid var(--accent);
+      }
+
+      .loader-corner--bl {
+        bottom: clamp(20px, 4vw, 48px);
+        left: clamp(20px, 4vw, 48px);
+        border-bottom: 1px solid var(--accent);
+        border-left: 1px solid var(--accent);
+      }
+
+      .loader-corner--br {
+        bottom: clamp(20px, 4vw, 48px);
+        right: clamp(20px, 4vw, 48px);
+        border-bottom: 1px solid var(--accent);
+        border-right: 1px solid var(--accent);
+      }
+
+      /* body locked while loader is visible */
+      body.loading {
+        overflow: hidden;
+      }
+
+      /* ══════════════════════════════════════════
+         IMAGE ADDITIONS — pure CSS + IntersectionObserver, zero GSAP
+         ══════════════════════════════════════════ */
+
+      /* ── ABOUT LAYOUT WITH IMAGE ── */
+      .about-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(40px, 7vw, 100px);
+        align-items: center;
+        margin-bottom: clamp(48px, 8vw, 96px);
+      }
+
+      @media (max-width: 900px) {
+        .about-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .about-img-col {
+          order: -1;
+        }
+      }
+
+      .about-img-stack {
+        position: relative;
+        height: clamp(300px, 42vw, 500px);
+      }
+
+      .about-img-item {
+        position: absolute;
+        overflow: hidden;
+        border-radius: 2px;
+        box-shadow: 0 20px 60px rgba(26, 31, 28, 0.14);
+        opacity: 0;
+        transition: opacity 0.9s ease, transform 0.9s ease;
+      }
+
+      .about-img-item--1 {
+        width: 62%;
+        height: 72%;
+        top: 0;
+        left: 0;
+        transform: translateX(-40px);
+      }
+
+      .about-img-item--2 {
+        width: 52%;
+        height: 58%;
+        bottom: 0;
+        right: 0;
+        transform: translateX(40px);
+        transition-delay: 0.18s;
+      }
+
+      .about-img-item.is-visible {
+        opacity: 1;
+        transform: translateX(0) !important;
+      }
+
+      .about-img-item--1.is-visible {
+        animation: imgFloat1 7s ease-in-out 0.9s infinite;
+      }
+
+      .about-img-item--2.is-visible {
+        animation: imgFloat2 7s ease-in-out 1.1s infinite;
+      }
+
+      .about-img-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transform: scale(1.08);
+        transition: transform 6s ease;
+      }
+
+      .about-img-item:hover img {
+        transform: scale(1.0);
+      }
+
+      @keyframes imgFloat1 {
+
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @keyframes imgFloat2 {
+
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+
+        50% {
+          transform: translateY(10px);
+        }
+      }
+
+      .about-img-badge {
+        position: absolute;
+        bottom: 18%;
+        left: 50%;
+        transform: translateX(-50%) scale(0.7);
+        background: var(--accent);
+        color: #fff;
+        padding: 14px 22px;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(14px, 1.6vw, 18px);
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 0.5px;
+        line-height: 1.3;
+        box-shadow: 0 10px 30px rgba(61, 107, 79, 0.3);
+        white-space: nowrap;
+        z-index: 3;
+        opacity: 0;
+        transition: opacity 0.7s ease 0.4s, transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s;
+      }
+
+      .about-img-badge.is-visible {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+        animation: badgePulse 4s ease-in-out 1.2s infinite;
+      }
+
+      .about-img-badge span {
+        font-style: italic;
+        font-weight: 300;
+        display: block;
+        font-size: 0.8em;
+        color: rgba(255, 255, 255, 0.75);
+      }
+
+      @keyframes badgePulse {
+
+        0%,
+        100% {
+          box-shadow: 0 10px 30px rgba(61, 107, 79, 0.3);
+        }
+
+        50% {
+          box-shadow: 0 16px 50px rgba(61, 107, 79, 0.5);
+        }
+      }
+
+      /* ── TESTIMONIAL PHOTO AVATAR ── */
+      .testi-avatar--photo {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: transparent !important;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .testi-avatar--photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        border-radius: 50%;
+        transition: transform 0.4s ease;
+      }
+
+      .testi-card:hover .testi-avatar--photo img {
+        transform: scale(1.08);
+      }
+
+
+      /* ══════════════════════════════════════════
+         SUBSIDIARIES SECTION
+         ══════════════════════════════════════════ */
+
+      #subsidiaries {
+        padding: clamp(80px, 12vw, 160px) var(--pad-x);
+        background: var(--black);
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* faint radial glow behind the whole section */
+      #subsidiaries::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(ellipse at 20% 50%, rgba(61, 107, 79, 0.07) 0%, transparent 55%),
+          radial-gradient(ellipse at 80% 50%, rgba(176, 125, 58, 0.05) 0%, transparent 50%);
+        pointer-events: none;
+      }
+
+      .subs-header {
+        text-align: center;
+        margin-bottom: clamp(56px, 8vw, 96px);
+        position: relative;
+        z-index: 1;
+      }
+
+      .subs-header .section-label {
+        justify-content: center;
+        color: var(--accent2);
+      }
+
+      .subs-header .section-label::before {
+        background: var(--accent2);
+      }
+
+      .subs-header .section-title {
+        color: var(--white);
+        margin-top: 8px;
+      }
+
+      .subs-header .section-title span {
+        color: #a8c9b4;
+        font-style: italic;
+      }
+
+      .subs-intro {
+        font-size: clamp(14px, 1.4vw, 16px);
+        color: rgba(244, 240, 232, 0.45);
+        max-width: 560px;
+        margin: 20px auto 0;
+        line-height: 1.9;
+        font-weight: 300;
+      }
+
+      /* ── Grid ── */
+      .subs-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: rgba(244, 240, 232, 0.06);
+        position: relative;
+        z-index: 1;
+      }
+
+      @media (max-width: 960px) {
+        .subs-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ── Each card ── */
+      .sub-card {
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        min-height: clamp(480px, 55vw, 620px);
+        cursor: pointer;
+      }
+
+      /* background photo */
+      .sub-card-bg {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        transform: scale(1.08);
+        transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        filter: grayscale(30%);
+        transition: transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s ease;
+      }
+
+      .sub-card:hover .sub-card-bg {
+        transform: scale(1.0);
+        filter: grayscale(0%);
+      }
+
+      /* dark overlay — lightens slightly on hover */
+      .sub-card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom,
+            rgba(26, 31, 28, 0.35) 0%,
+            rgba(26, 31, 28, 0.65) 50%,
+            rgba(26, 31, 28, 0.92) 100%);
+        transition: background 0.5s ease;
+      }
+
+      .sub-card:hover .sub-card-overlay {
+        background: linear-gradient(to bottom,
+            rgba(26, 31, 28, 0.2) 0%,
+            rgba(26, 31, 28, 0.5) 50%,
+            rgba(26, 31, 28, 0.88) 100%);
+      }
+
+      /* accent colour stripe at top — unique per card */
+      .sub-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 3;
+      }
+
+      .sub-card:hover::after {
+        transform: scaleX(1);
+      }
+
+      .sub-card--meridian::after {
+        background: var(--accent);
+      }
+
+      .sub-card--kora::after {
+        background: var(--accent2);
+      }
+
+      .sub-card--aurum::after {
+        background: linear-gradient(90deg, #c9973a, #e8c97a);
+      }
+
+      /* content */
+      .sub-card-content {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        height: 100%;
+        padding: clamp(28px, 3.5vw, 48px);
+      }
+
+      /* floating tag top-left */
+      .sub-card-tag {
+        position: absolute;
+        top: clamp(20px, 2.5vw, 32px);
+        left: clamp(20px, 2.5vw, 32px);
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: rgba(244, 240, 232, 0.5);
+        border: 1px solid rgba(244, 240, 232, 0.18);
+        padding: 6px 14px;
+        transition: color 0.3s, border-color 0.3s;
+      }
+
+      .sub-card:hover .sub-card-tag {
+        color: rgba(244, 240, 232, 0.9);
+        border-color: rgba(244, 240, 232, 0.45);
+      }
+
+      /* mark / monogram */
+      .sub-card-mark {
+        width: 44px;
+        height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Cormorant Garamond', serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: #fff;
+        margin-bottom: 20px;
+        flex-shrink: 0;
+      }
+
+      .sub-card--meridian .sub-card-mark {
+        background: var(--accent);
+      }
+
+      .sub-card--kora .sub-card-mark {
+        background: var(--accent2);
+      }
+
+      .sub-card--aurum .sub-card-mark {
+        background: linear-gradient(135deg, #c9973a, #e8c97a);
+      }
+
+      .sub-card-name {
+        font-family: 'Cormorant Garamond', serif;
+        font-size: clamp(28px, 3.5vw, 42px);
+        font-weight: 300;
+        letter-spacing: -0.3px;
+        line-height: 1.05;
+        color: var(--white);
+        margin-bottom: 8px;
+      }
+
+      .sub-card-tagline {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      .sub-card--meridian .sub-card-tagline {
+        color: #a8c9b4;
+      }
+
+      .sub-card--kora .sub-card-tagline {
+        color: #d4a05c;
+      }
+
+      .sub-card--aurum .sub-card-tagline {
+        color: #e8c97a;
+      }
+
+      .sub-card-desc {
+        font-size: clamp(13px, 1.3vw, 14px);
+        color: rgba(244, 240, 232, 0.6);
+        line-height: 1.85;
+        font-weight: 300;
+        max-width: 340px;
+        /* hidden by default — slides up on hover */
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(12px);
+        transition: max-height 0.5s ease, opacity 0.45s ease 0.05s, transform 0.45s ease 0.05s;
+      }
+
+      .sub-card:hover .sub-card-desc {
+        max-height: 160px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* services pills */
+      .sub-card-services {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 22px;
+        /* also slides up on hover */
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: max-height 0.5s ease 0.08s, opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+      }
+
+      .sub-card:hover .sub-card-services {
+        max-height: 120px;
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .sub-pill {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 5px 12px;
+        border: 1px solid rgba(244, 240, 232, 0.2);
+        color: rgba(244, 240, 232, 0.55);
+        transition: border-color 0.3s, color 0.3s;
+      }
+
+      .sub-card:hover .sub-pill {
+        border-color: rgba(244, 240, 232, 0.4);
+        color: rgba(244, 240, 232, 0.85);
+      }
+
+      /* link arrow */
+      .sub-card-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--white);
+        text-decoration: none;
+        margin-top: 24px;
+        padding-bottom: 2px;
+        border-bottom: 1px solid rgba(244, 240, 232, 0.3);
+        width: fit-content;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: opacity 0.4s ease 0.2s, transform 0.4s ease 0.2s, border-color 0.3s, gap 0.3s;
+      }
+
+      .sub-card:hover .sub-card-link {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .sub-card-link:hover {
+        gap: 14px;
+        border-color: rgba(244, 240, 232, 0.7);
+      }
+
+      /* scroll-reveal state (GSAP will set opacity/transform) */
+      .sub-card {
+        opacity: 0;
+        transform: translateY(60px);
+      }
     </style>
   </head>
 
-  <body>
+  <body class="loading">
 
+    <!-- ── PAGE LOADER ── -->
+    <div id="lc-loader">
+      <div class="loader-corner loader-corner--tl"></div>
+      <div class="loader-corner loader-corner--tr"></div>
+      <div class="loader-corner loader-corner--bl"></div>
+      <div class="loader-corner loader-corner--br"></div>
+      <div class="loader-logo">
+        <div class="loader-mark">LC</div>
+        <div class="loader-name">Lloyd Cooper Consulting Group</div>
+      </div>
+      <div class="loader-bar-wrap" id="loader-bar-wrap">
+        <div class="loader-bar-fill" id="loader-bar-fill"></div>
+      </div>
+      <div class="loader-tagline">Impact That Matters</div>
+    </div>
     <div id="progress-bar"></div>
     <div id="cur"></div>
     <div id="cur-ring"></div>
@@ -1419,12 +2035,13 @@
     <nav id="navbar">
       <a href="#" class="nav-logo">
         <div class="nav-logo-mark">LC</div>
-        Lloyd Cooper Group
+        Lloyd Cooper Consulting Group
       </a>
       <div class="nav-links">
-        <a href="#services">Services</a>
         <a href="#about">About</a>
+        <a href="#services">Services</a>
         <a href="#why-us">Why Us</a>
+        <a href="#subsidiaries">Group</a>
         <a href="#locations">Offices</a>
         <a href="#cta" class="nav-cta">Contact Us</a>
       </div>
@@ -1438,6 +2055,7 @@
       <a href="#about" class="drawer-link">About</a>
       <a href="#services" class="drawer-link">Services</a>
       <a href="#why-us" class="drawer-link">Why Us</a>
+      <a href="#subsidiaries" class="drawer-link">Group</a>
       <a href="#locations" class="drawer-link">Offices</a>
       <a href="#cta" class="drawer-link nav-drawer-cta">Contact Us</a>
     </div>
@@ -1497,20 +2115,41 @@
 
     <!-- ABOUT / STATS -->
     <section class="section" id="about">
-      <div style="max-width:720px; margin-bottom: clamp(48px,8vw,96px)">
-        <p class="section-label">About Us</p>
-        <h2 class="section-title">Innovative enterprise<br><span style="color:var(--accent)">solutions you can
-            trust.</span></h2>
-        <p class="about-body">
-          Lloyd Cooper Group is a leading, independent auditing, tax and accounting firm. We are driven by one mantra —
-          to make an impact that matters in the most sustainable way. To us, that means impact to our clients and their
-          businesses, ideas and actions that look out for the greater good.
-          <br><br>
-          We have been in operation for over 10 years, and have built a reputation for delivering high-quality, tailored
-          solutions that help our clients achieve their goals. Our headquarters are in Nairobi, with branches in Uganda,
-          Rwanda, and Somalia. Our team is made up of highly qualified and experienced professionals who work closely
-          with clients to understand their unique needs and challenges.
-        </p>
+      <div class="about-layout">
+        <div>
+          <p class="section-label">About Us</p>
+          <h2 class="section-title">Innovative enterprise<br><span style="color:var(--accent)">solutions you can
+              trust.</span></h2>
+          <p class="about-body">
+            Lloyd Cooper Consulting Group is a leading, independent auditing, tax and accounting firm. We are driven by
+            one mantra —
+            to make an impact that matters in the most sustainable way. To us, that means impact to our clients and
+            their
+            businesses, ideas and actions that look out for the greater good.
+            <br><br>
+            We have been in operation for over 10 years, and have built a reputation for delivering high-quality,
+            tailored
+            solutions that help our clients achieve their goals. Our headquarters are in Nairobi, with branches in
+            Uganda,
+            Rwanda, and Somalia. Our team is made up of highly qualified and experienced professionals who work closely
+            with clients to understand their unique needs and challenges.
+          </p>
+        </div>
+        <div class="about-img-col">
+          <div class="about-img-stack">
+            <div class="about-img-item about-img-item--1">
+              <img
+                src="https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="African professional" />
+            </div>
+            <div class="about-img-item about-img-item--2">
+              <img
+                src="https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=800"
+                alt="African business team" />
+            </div>
+            <div class="about-img-badge">10+ Years<br><span>of Impact</span></div>
+          </div>
+        </div>
       </div>
       <div style="max-width:640px">
         <p class="section-label">By The Numbers</p>
@@ -1707,55 +2346,6 @@
       </div>
     </section>
 
-    <!-- OUR APPROACH – HORIZONTAL PIN -->
-    <div id="pin-section">
-      <div class="pin-sticky">
-        <p class="pin-label">Our Approach</p>
-        <div class="panels-row" id="panels-row">
-          <div class="panel">
-            <span class="panel-num">01</span>
-            <div class="panel-inner">
-              <div class="panel-bar"></div>
-              <h3 class="panel-title">Understand</h3>
-              <p class="panel-desc">We work closely with our clients to understand their unique needs and challenges.
-                Every engagement starts with listening — our goal is to help businesses succeed, and we don't stop until
-                it's done.</p>
-            </div>
-          </div>
-          <div class="panel">
-            <span class="panel-num">02</span>
-            <div class="panel-inner">
-              <div class="panel-bar"></div>
-              <h3 class="panel-title">Analyse</h3>
-              <p class="panel-desc">We apply rigorous analytical frameworks to your financial and operational data. We
-                think beyond and strive to be your first port of call in all your business decisions — your most trusted
-                business advisor.</p>
-            </div>
-          </div>
-          <div class="panel">
-            <span class="panel-num">03</span>
-            <div class="panel-inner">
-              <div class="panel-bar"></div>
-              <h3 class="panel-title">Advise</h3>
-              <p class="panel-desc">We bring functional and industry expertise, unparalleled insights, and actionable
-                recommendations — with the commitment and know-how to unlock all-round value across your organisation.
-              </p>
-            </div>
-          </div>
-          <div class="panel">
-            <span class="panel-num">04</span>
-            <div class="panel-inner">
-              <div class="panel-bar"></div>
-              <h3 class="panel-title">Impact</h3>
-              <p class="panel-desc">To us, impact means impact to our clients and their businesses, ideas and actions
-                that look out for the greater good. We serve businesses of all sizes, non-profits, government
-                institutions and private individuals.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- PARALLAX BAND -->
     <div id="parallax-band">
       <div class="parallax-inner" id="parallax-inner"></div>
@@ -1763,6 +2353,96 @@
         <h2>Solutions that<br><span>drive results.</span></h2>
       </div>
     </div>
+
+    <!-- SUBSIDIARIES -->
+    <section id="subsidiaries">
+      <div class="subs-header">
+        <p class="section-label">The Group</p>
+        <h2 class="section-title">Three companies.<br><span>One vision.</span></h2>
+        <p class="subs-intro">Lloyd Cooper Consulting Group operates through three specialist subsidiaries — each built
+          to deliver focused, world-class expertise across the key pillars of business growth in East Africa and beyond.
+        </p>
+      </div>
+
+      <div class="subs-grid">
+
+        <!-- MERIDIAN ADVISORY -->
+        <div class="sub-card sub-card--meridian">
+          <div class="sub-card-bg"
+            style="background-image:url('https://images.pexels.com/photos/8353800/pexels-photo-8353800.jpeg?auto=compress&cs=tinysrgb&w=900')">
+          </div>
+          <div class="sub-card-overlay"></div>
+          <div class="sub-card-content">
+            <div class="sub-card-tag">Advisory & Consulting</div>
+            <div class="sub-card-mark">MA</div>
+            <h3 class="sub-card-name">Meridian<br>Advisory</h3>
+            <p class="sub-card-tagline">Strategy · Transformation · Technology</p>
+            <p class="sub-card-desc">Meridian Advisory is Lloyd Cooper's strategic consulting arm — helping
+              organisations navigate transformation, unlock competitive advantage, and embed technology that drives
+              measurable results. We bring Big-4 calibre thinking to the East African context.</p>
+            <div class="sub-card-services">
+              <span class="sub-pill">Management Consulting</span>
+              <span class="sub-pill">ERP & Cloud</span>
+              <span class="sub-pill">Data & AI</span>
+              <span class="sub-pill">Cyber Security</span>
+              <span class="sub-pill">Change Management</span>
+            </div>
+            <a href="#cta" class="sub-card-link">Engage Meridian <span>→</span></a>
+          </div>
+        </div>
+
+        <!-- KORA BUSINESS SERVICES -->
+        <div class="sub-card sub-card--kora">
+          <div class="sub-card-bg"
+            style="background-image:url('https://images.pexels.com/photos/6694535/pexels-photo-6694535.jpeg?auto=compress&cs=tinysrgb&w=900')">
+          </div>
+          <div class="sub-card-overlay"></div>
+          <div class="sub-card-content">
+            <div class="sub-card-tag">Business Solutions & Outsourcing</div>
+            <div class="sub-card-mark">KB</div>
+            <h3 class="sub-card-name">Kora Business<br>Services</h3>
+            <p class="sub-card-tagline">Outsourcing · Finance · Operations</p>
+            <p class="sub-card-desc">Kora Business Services is the operational backbone for growing businesses across
+              East Africa — delivering expert finance, payroll, and back-office outsourcing so our clients can focus
+              entirely on growth. Rooted in the region, built for scale.</p>
+            <div class="sub-card-services">
+              <span class="sub-pill">Finance Outsourcing</span>
+              <span class="sub-pill">Payroll Management</span>
+              <span class="sub-pill">CFO-as-a-Service</span>
+              <span class="sub-pill">HR Operations</span>
+              <span class="sub-pill">Compliance Support</span>
+            </div>
+            <a href="#cta" class="sub-card-link">Engage Kora <span>→</span></a>
+          </div>
+        </div>
+
+        <!-- AURUM CAPITAL PARTNERS -->
+        <div class="sub-card sub-card--aurum">
+          <div class="sub-card-bg"
+            style="background-image:url('https://images.pexels.com/photos/6770610/pexels-photo-6770610.jpeg?auto=compress&cs=tinysrgb&w=900')">
+          </div>
+          <div class="sub-card-overlay"></div>
+          <div class="sub-card-content">
+            <div class="sub-card-tag">Capital & Wealth</div>
+            <div class="sub-card-mark">AC</div>
+            <h3 class="sub-card-name">Aurum Capital<br>Partners</h3>
+            <p class="sub-card-tagline">Capital · Wealth · Transactions</p>
+            <p class="sub-card-desc">Aurum Capital Partners is Lloyd Cooper's premium financial advisory and investment
+              arm — guiding high-net-worth individuals, family offices, and corporates through wealth structuring, M&A
+              transactions, and capital markets across the continent.</p>
+            <div class="sub-card-services">
+              <span class="sub-pill">Corporate Finance</span>
+              <span class="sub-pill">M&A Advisory</span>
+              <span class="sub-pill">Wealth Management</span>
+              <span class="sub-pill">Investment Advisory</span>
+              <span class="sub-pill">Due Diligence</span>
+            </div>
+            <a href="#cta" class="sub-card-link">Engage Aurum <span>→</span></a>
+          </div>
+        </div>
+
+      </div>
+    </section>
 
     <!-- TESTIMONIALS -->
     <section class="section" id="testimonials">
@@ -1776,7 +2456,11 @@
             experienced before. They truly understand the East African business landscape and navigate its complexities
             with ease.</p>
           <div class="testi-attribution">
-            <div class="testi-avatar">JM</div>
+            <div class="testi-avatar testi-avatar--photo">
+              <img
+                src="https://images.pexels.com/photos/3756679/pexels-photo-3756679.jpeg?auto=compress&cs=tinysrgb&w=120"
+                alt="James Mwangi" />
+            </div>
             <div>
               <div class="testi-name">James Mwangi</div>
               <div class="testi-role">CFO, Horizon Capital — Nairobi, Kenya</div>
@@ -1787,7 +2471,11 @@
           <p class="testi-quote">Their tax advisory team saved us from significant exposure during a regulatory
             transition. The guidance was timely, precise, and delivered with genuine care for our outcome.</p>
           <div class="testi-attribution">
-            <div class="testi-avatar" style="background:var(--accent2)">GN</div>
+            <div class="testi-avatar testi-avatar--photo">
+              <img
+                src="https://images.pexels.com/photos/2422280/pexels-photo-2422280.jpeg?auto=compress&cs=tinysrgb&w=120"
+                alt="Grace Nakimera" />
+            </div>
             <div>
               <div class="testi-name">Grace Nakimera</div>
               <div class="testi-role">CEO, BuildRight Uganda — Kampala, Uganda</div>
@@ -1798,7 +2486,11 @@
           <p class="testi-quote">The management consulting engagement transformed how we operate. Lloyd Cooper helped us
             develop a roadmap that was detailed and executable — we knew exactly what to do next.</p>
           <div class="testi-attribution">
-            <div class="testi-avatar" style="background:#5a7a6a">OH</div>
+            <div class="testi-avatar testi-avatar--photo">
+              <img
+                src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg?auto=compress&cs=tinysrgb&w=120"
+                alt="Omar Hassan" />
+            </div>
             <div>
               <div class="testi-name">Omar Hassan</div>
               <div class="testi-role">Director, Afri-Trade Holdings — Mogadishu, Somalia</div>
@@ -1844,9 +2536,11 @@
 
     <!-- CTA -->
     <section id="cta">
+      <div class="cta-parallax-bg" id="cta-parallax-bg"></div>
       <div class="cta-glow"></div>
       <h2 class="cta-title">Let's make<br><span>an impact</span><br>together</h2>
-      <a href="mailto:info@lloydcooper.co.ke" class="cta-btn">Start a Conversation</a>
+      <a href="/cdn-cgi/l/email-protection#f891969e97b8949497819c9b9797889d8ad69b97d6939d" class="cta-btn">Start a
+        Conversation</a>
     </section>
 
     <!-- FOOTER -->
@@ -1855,7 +2549,7 @@
         <div class="footer-brand">
           <div class="footer-logo">
             <div class="footer-logo-mark">LC</div>
-            LLOYD COOPER GROUP
+            LLOYD COOPER CONSULTING GROUP
           </div>
           <p class="footer-tagline">Making an impact that matters — for our clients, their businesses, and the
             communities we serve across East Africa.</p>
@@ -1878,24 +2572,90 @@
         </div>
         <div class="footer-col">
           <h4>Contact</h4>
-          <a href="mailto:info@lloydcooper.co.ke">info@lloydcooper.co.ke</a>
+          <a href="/cdn-cgi/l/email-protection#422b2c242d022e2e2d3b26212d2d3227306c212d6c2927"><span
+              class="__cf_email__"
+              data-cfemail="b0d9ded6dff0dcdcdfc9d4d3dfdfc0d5c29ed3df9edbd5">[email&#160;protected]</span></a>
           <a href="https://www.lloydcooper.co.ke" target="_blank">www.lloydcooper.co.ke</a>
           <a href="#cta">Request a Quote</a>
         </div>
       </div>
       <div class="footer-bottom">
-        <div class="foot-copy">© 2026 Lloyd Cooper Group. All rights reserved.</div>
+        <div class="foot-copy">© 2025 Lloyd Cooper Consulting Group. All rights reserved.</div>
         <div class="foot-tagline">Impact that matters.</div>
       </div>
     </footer>
 
     <!-- CDNs -->
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
     <script>
       gsap.registerPlugin(ScrollTrigger);
+
+      /* ══════════════════════════════════════
+         PAGE LOADER — runs before everything else
+         ══════════════════════════════════════ */
+      (function () {
+        const loader = document.getElementById('lc-loader');
+        const logo = loader.querySelector('.loader-logo');
+        const barWrap = document.getElementById('loader-bar-wrap');
+        const barFill = document.getElementById('loader-bar-fill');
+        const tagline = loader.querySelector('.loader-tagline');
+        const corners = loader.querySelectorAll('.loader-corner');
+
+        const tl = gsap.timeline({
+          onComplete: dismissLoader
+        });
+
+        // 1 — corners draw in
+        gsap.set(corners, { scaleX: 0, scaleY: 0 });
+        tl.to(corners, { scaleX: 1, scaleY: 1, duration: 0.5, stagger: 0.08, ease: 'power2.out' }, 0);
+
+        // 2 — logo fades + rises
+        tl.to(logo, { opacity: 1, y: 0, duration: 0.55, ease: 'power3.out' }, 0.3);
+
+        // 3 — bar fades in then fills
+        tl.to(barWrap, { opacity: 1, duration: 0.3, ease: 'none' }, 0.65);
+        tl.to(barFill, { width: '100%', duration: 1.1, ease: 'power1.inOut' }, 0.7);
+
+        // 4 — tagline
+        tl.to(tagline, { opacity: 1, duration: 0.4, ease: 'none' }, 0.85);
+
+        // 5 — short hold at 100%
+        tl.to({}, { duration: 0.3 });
+
+        function dismissLoader() {
+          const exit = gsap.timeline({
+            onComplete: () => {
+              loader.style.display = 'none';
+              document.body.classList.remove('loading');
+            }
+          });
+
+          // bar + tagline fade out
+          exit.to([barWrap, tagline, logo], { opacity: 0, duration: 0.35, ease: 'power2.in' }, 0);
+
+          // curtain wipe — overlay splits left & right
+          const curtainL = document.createElement('div');
+          const curtainR = document.createElement('div');
+          Object.assign(curtainL.style, {
+            position: 'absolute', inset: '0 50% 0 0',
+            background: 'var(--black)', zIndex: '3'
+          });
+          Object.assign(curtainR.style, {
+            position: 'absolute', inset: '0 0 0 50%',
+            background: 'var(--black)', zIndex: '3'
+          });
+          loader.appendChild(curtainL);
+          loader.appendChild(curtainR);
+
+          exit.to(curtainL, { xPercent: -100, duration: 0.75, ease: 'power3.inOut' }, 0.25);
+          exit.to(curtainR, { xPercent: 100, duration: 0.75, ease: 'power3.inOut' }, 0.25);
+          exit.to(loader, { opacity: 0, duration: 0.2, ease: 'none' }, 0.9);
+        }
+      })();
 
       /* ── 1. LENIS ── */
       const lenis = new Lenis({ duration: 1.1, easing: t => 1 - Math.pow(1 - t, 4) });
@@ -1987,13 +2747,13 @@
       /* ── 7. BATCHED SCROLL REVEALS (bidirectional) ── */
       const revealGroups = [
         { sel: '.section-label', from: { opacity: 0, y: 16 } },
-        { sel: '.section-title, .panel-title, .cta-title', from: { opacity: 0, y: 55 } },
+        { sel: '.section-title, .cta-title', from: { opacity: 0, y: 55 } },
         { sel: '.stat-box, .cta-btn', from: { opacity: 0, scale: 0.88 } },
-        { sel: '.location-box', from: { opacity: 0, y: 30 } },
+        // .location-box handled exclusively by animation ── 13 below (alternating slide-in)
         { sel: '.testi-card:nth-child(1)', from: { opacity: 0, x: -50 } },
         { sel: '.testi-card:nth-child(2)', from: { opacity: 0, y: 50 } },
         { sel: '.testi-card:nth-child(3)', from: { opacity: 0, x: 50 } },
-        { sel: '.panel-desc, .card-desc', from: { opacity: 0 } },
+        { sel: '.card-desc', from: { opacity: 0 } },
       ];
 
       revealGroups.forEach(({ sel, from }) => {
@@ -2025,20 +2785,6 @@
         });
       });
 
-      /* ── 9. HORIZONTAL PINNED SCROLL ── */
-      const row = document.getElementById('panels-row');
-      const pinSection = document.getElementById('pin-section');
-      gsap.to(row, {
-        x: () => -(row.scrollWidth - window.innerWidth),
-        ease: 'none',
-        scrollTrigger: {
-          trigger: pinSection, pin: pinSection,
-          pinSpacing: true, anticipatePin: 1,
-          start: 'top top',
-          end: () => '+=' + (row.scrollWidth - window.innerWidth),
-          scrub: 0.8, invalidateOnRefresh: true,
-        }
-      });
 
       /* ── 10. PARALLAX TEXT (bidirectional) ── */
       gsap.set('.parallax-text h2', { opacity: 0, y: 55 });
@@ -2050,6 +2796,12 @@
       gsap.to('#parallax-inner', {
         yPercent: 22, ease: 'none',
         scrollTrigger: { trigger: '#parallax-band', start: 'top bottom', end: 'bottom top', scrub: true }
+      });
+
+      /* ── CTA PARALLAX BG ── */
+      gsap.to('#cta-parallax-bg', {
+        yPercent: 18, ease: 'none',
+        scrollTrigger: { trigger: '#cta', start: 'top bottom', end: 'bottom top', scrub: true }
       });
 
       /* ── 11. SCROLL PROGRESS BAR ── */
@@ -2075,15 +2827,42 @@
 
       /* ── 13. LOCATION BOXES — cascade slide-in from alternating sides ── */
       gsap.utils.toArray('.location-box').forEach((box, i) => {
-        gsap.from(box, {
-          opacity: 0,
-          x: i % 2 === 0 ? -60 : 60,
-          y: 20,
-          duration: 0.75,
-          ease: 'power3.out',
-          delay: i * 0.1,
-          scrollTrigger: { trigger: box, start: 'top 90%' }
+        const fromX = i % 2 === 0 ? -60 : 60;
+        gsap.set(box, { opacity: 0, x: fromX, y: 20 });
+        ScrollTrigger.create({
+          trigger: box,
+          start: 'top 88%',
+          onEnter: () => gsap.to(box, {
+            opacity: 1, x: 0, y: 0,
+            duration: 0.75, ease: 'power3.out',
+            delay: i * 0.1
+          }),
+          onLeaveBack: () => gsap.set(box, { opacity: 0, x: fromX, y: 20 }),
         });
+      });
+
+      /* ── SUBSIDIARY CARDS — staggered rise from below ── */
+      gsap.utils.toArray('.sub-card').forEach((card, i) => {
+        ScrollTrigger.create({
+          trigger: card,
+          start: 'top 88%',
+          onEnter: () => gsap.to(card, {
+            opacity: 1, y: 0,
+            duration: 0.9,
+            ease: 'power3.out',
+            delay: i * 0.15
+          }),
+          onLeaveBack: () => gsap.set(card, { opacity: 0, y: 60 }),
+        });
+      });
+
+      /* ── SUBS HEADER — fade up ── */
+      gsap.set('.subs-header', { opacity: 0, y: 36 });
+      ScrollTrigger.create({
+        trigger: '#subsidiaries',
+        start: 'top 82%',
+        onEnter: () => gsap.to('.subs-header', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }),
+        onLeaveBack: () => gsap.set('.subs-header', { opacity: 0, y: 36 }),
       });
 
       /* ── 14. TESTIMONIAL 3D TILT ON MOUSE MOVE ── */
@@ -2141,20 +2920,6 @@
         });
       }
 
-      /* ── 17. PANEL TITLE STAGGER REVEAL ON SCRUB ── */
-      gsap.utils.toArray('.panel').forEach(panel => {
-        const title = panel.querySelector('.panel-title');
-        const bar = panel.querySelector('.panel-bar');
-        const desc = panel.querySelector('.panel-desc');
-        gsap.set([title, bar, desc], { opacity: 0, y: 30 });
-        ScrollTrigger.create({
-          trigger: panel,
-          containerAnimation: gsap.to(row, { x: -(row.scrollWidth - window.innerWidth), ease: 'none' }),
-          start: 'left 70%',
-          onEnter: () => gsap.to([bar, title, desc], { opacity: 1, y: 0, duration: 0.7, stagger: 0.12, ease: 'power3.out' }),
-          onLeaveBack: () => gsap.set([bar, title, desc], { opacity: 0, y: 30 }),
-        });
-      });
 
       /* ── 18. FOOTER LINK HOVER — slide underline ── */
       document.querySelectorAll('.footer-col a').forEach(link => {
@@ -2192,17 +2957,33 @@
         hamburger.classList.contains('open') ? closeDrawer() : openDrawer();
       });
 
-      // Close drawer when a link is clicked
-      drawer.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', closeDrawer);
-      });
-
-      // Close on Escape key
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape') closeDrawer();
+      // Close drawer when a link closes the drawer
+      document.querySelectorAll('.drawer-link').forEach(link => {
+        link.addEventListener('click', closeDrawer);
       });
 
     </script>
+
+    <!-- IMAGE REVEAL — IntersectionObserver (zero GSAP, fully independent) -->
+    <script>
+      (function () {
+        const targets = document.querySelectorAll(
+          '.about-img-item, .about-img-badge'
+        );
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+            } else {
+              // allow re-animation when scrolled back up
+              entry.target.classList.remove('is-visible');
+            }
+          });
+        }, { threshold: 0.15 });
+        targets.forEach(el => io.observe(el));
+      })();
+    </script>
+
   </body>
 
 </html>
