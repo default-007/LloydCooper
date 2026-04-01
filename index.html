@@ -745,10 +745,26 @@
         text-decoration: none;
       }
 
-      .card-icon {
-        font-size: 26px;
-        margin-bottom: 20px;
+      .card-img {
+        width: calc(100% + clamp(40px, 6vw, 80px));
+        margin: calc(-1 * clamp(28px, 4vw, 48px)) calc(-1 * clamp(20px, 3vw, 40px)) 24px;
+        height: 170px;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
         display: block;
+        transition: transform 0.65s ease;
+        filter: grayscale(15%);
+      }
+
+      .flip-card:hover .card-img img {
+        transform: scale(1.06);
+        filter: grayscale(0%);
       }
 
       .card-title {
@@ -2182,25 +2198,20 @@
         <h2 class="section-title">Explore our <span style="color:var(--accent)">unrivalled services</span></h2>
         <p
           style="font-size:15px;color:var(--muted);max-width:600px;margin:20px auto 0;line-height:1.8;font-weight:300;">
-          In addition to advancing our own environmental goals, we work with our clients to embed sustainability across
-          their businesses and innovate with our people and partners to support communities.</p>
+          From audit and tax to technology and outsourcing, our integrated service lines are designed to address the full spectrum of challenges facing businesses, governments, and institutions across Africa.</p>
       </div>
       <div class="cards-grid">
 
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-front">
-              <span class="card-icon">📊</span>
+              <div class="card-img"><img src="https://images.pexels.com/photos/5668858/pexels-photo-5668858.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Audit & Assurance" /></div>
               <h3 class="card-title">Audit, Assurance & Advisory</h3>
-              <p class="card-desc">Our audit service goes beyond compliance. We uncover insights that enhance
-                efficiency, manage risks, and drive profitability — helping ensure regulatory compliance and guiding
-                your strategies.</p>
+              <p class="card-desc">Our audit practice goes well beyond compliance. We surface the insights that sharpen efficiency, reduce risk exposure, and strengthen financial integrity across your organisation.</p>
             </div>
             <div class="flip-back">
               <div class="flip-back-label">What we deliver</div>
-              <p class="flip-back-text">Enhanced financial transparency, regulatory compliance, risk management,
-                operational efficiency, and stakeholder confidence — working across construction, charities, energy,
-                education and more.</p>
+              <p class="flip-back-text">Financial transparency, regulatory compliance, risk management, operational efficiency, and stakeholder confidence — serving construction, energy, education, charities, and more.</p>
               <a href="#cta" class="flip-back-cta">Engage Us →</a>
             </div>
           </div>
@@ -2209,16 +2220,13 @@
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-front">
-              <span class="card-icon">📈</span>
+              <div class="card-img"><img src="https://images.pexels.com/photos/3184287/pexels-photo-3184287.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Management Consulting" /></div>
               <h3 class="card-title">Management Consulting</h3>
-              <p class="card-desc">We stand ready to provide the strategy and consulting support for you to navigate
-                reinvention journeys — helping you become faster, more innovative and more resilient.</p>
+              <p class="card-desc">We partner with organisations on their reinvention journeys — delivering the strategy and operational support needed to move faster, innovate boldly, and build lasting resilience.</p>
             </div>
             <div class="flip-back">
               <div class="flip-back-label">What we deliver</div>
-              <p class="flip-back-text">Business strategy, customer strategy, data strategy, technology strategy,
-                business transformation, innovation & emerging technology, and procurement strategy tailored to your
-                goals.</p>
+              <p class="flip-back-text">Business strategy, customer and data strategy, technology transformation, innovation advisory, and procurement strategy — all tailored to your market and growth stage.</p>
               <a href="#cta" class="flip-back-cta">Engage Us →</a>
             </div>
           </div>
@@ -2227,17 +2235,13 @@
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-front">
-              <span class="card-icon">💻</span>
+              <div class="card-img"><img src="https://images.pexels.com/photos/3861964/pexels-photo-3861964.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Enterprise Technology" /></div>
               <h3 class="card-title">Enterprise Technology</h3>
-              <p class="card-desc">We help companies modernise technology, reimagine processes and transform experiences
-                so they stay ahead in a fast-changing world — going beyond transformation to make a meaningful
-                difference.</p>
+              <p class="card-desc">We help organisations modernise their technology stack, reimagine core processes, and transform the experiences of both customers and teams in a rapidly evolving digital landscape.</p>
             </div>
             <div class="flip-back">
               <div class="flip-back-label">What we deliver</div>
-              <p class="flip-back-text">Cloud solutions, data & AI, global ERP (Microsoft, SAP, Oracle, Odoo), finance
-                transformation, HR technology, cyber security, and enterprise management — with partners including IBM
-                and AWS.</p>
+              <p class="flip-back-text">Cloud solutions, data & AI, ERP implementation (Microsoft, SAP, Oracle, Odoo), finance transformation, HR technology, cyber security, and enterprise management with IBM and AWS.</p>
               <a href="#cta" class="flip-back-cta">Engage Us →</a>
             </div>
           </div>
@@ -2246,16 +2250,13 @@
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-front">
-              <span class="card-icon">👥</span>
+              <div class="card-img"><img src="https://images.pexels.com/photos/3184465/pexels-photo-3184465.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Human Resource Management" /></div>
               <h3 class="card-title">Human Resource Management</h3>
-              <p class="card-desc">We optimise talent management for the success of your business — helping clients
-                boost performance through strategies that achieve a sustainable competitive advantage in their markets.
-              </p>
+              <p class="card-desc">We help organisations optimise their talent strategy for sustained competitive advantage — designing people-first frameworks that align workforce capabilities with business goals.</p>
             </div>
             <div class="flip-back">
               <div class="flip-back-label">What we deliver</div>
-              <p class="flip-back-text">HR audits, policy design, payroll advisory, talent acquisition frameworks,
-                people consultancy, and organisational restructuring support — built for East African businesses.</p>
+              <p class="flip-back-text">HR audits, policy design, payroll advisory, talent acquisition frameworks, people consultancy, and organisational restructuring — purpose-built for East African businesses.</p>
               <a href="#cta" class="flip-back-cta">Engage Us →</a>
             </div>
           </div>
@@ -2264,17 +2265,13 @@
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-front">
-              <span class="card-icon">🧾</span>
+              <div class="card-img"><img src="https://images.pexels.com/photos/6863183/pexels-photo-6863183.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Tax Compliance" /></div>
               <h3 class="card-title">Tax Compliance</h3>
-              <p class="card-desc">Our services help you grasp the complexities of indirect and direct taxes — keeping
-                you informed of responsibilities, liabilities, and any legislative changes that impact your operations.
-              </p>
+              <p class="card-desc">We cut through the complexity of indirect and direct taxes — keeping your organisation fully informed of its obligations, exposures, and any regulatory changes that affect your bottom line.</p>
             </div>
             <div class="flip-back">
               <div class="flip-back-label">What we deliver</div>
-              <p class="flip-back-text">Corporate tax planning, VAT advisory, transfer pricing, KRA/URA/RRA compliance,
-                wealth management, and tax dispute resolution — navigating East Africa's evolving regulatory landscape.
-              </p>
+              <p class="flip-back-text">Corporate tax planning, VAT advisory, transfer pricing, KRA/URA/RRA compliance, wealth management, and tax dispute resolution — navigating East Africa's evolving tax landscape.</p>
               <a href="#cta" class="flip-back-cta">Engage Us →</a>
             </div>
           </div>
@@ -2283,16 +2280,13 @@
         <div class="flip-card">
           <div class="flip-card-inner">
             <div class="flip-front">
-              <span class="card-icon">🔗</span>
+              <div class="card-img"><img src="https://images.pexels.com/photos/3760067/pexels-photo-3760067.jpeg?auto=compress&cs=tinysrgb&w=700" alt="Business Services & Outsourcing" /></div>
               <h3 class="card-title">Business Services & Outsourcing</h3>
-              <p class="card-desc">Lloyd BSO provides a full range of finance, accounting and business services to
-                support your growth and help manage changing regulatory and reporting requirements across global
-                markets.</p>
+              <p class="card-desc">We take on the finance, accounting, and back-office functions that slow growth — delivering reliable, scalable business process outsourcing so your team can focus on what matters most.</p>
             </div>
             <div class="flip-back">
               <div class="flip-back-label">What we deliver</div>
-              <p class="flip-back-text">Bookkeeping, management accounts, payroll processing, CFO advisory, corporate
-                finance, and back-office outsourcing — helping businesses within local markets and around the globe.</p>
+              <p class="flip-back-text">Bookkeeping, management accounts, payroll processing, CFO advisory, corporate finance, and back-office outsourcing — serving businesses across local markets and beyond.</p>
               <a href="#cta" class="flip-back-cta">Engage Us →</a>
             </div>
           </div>
@@ -2359,85 +2353,77 @@
       <div class="subs-header">
         <p class="section-label">The Group</p>
         <h2 class="section-title">Three companies.<br><span>One vision.</span></h2>
-        <p class="subs-intro">Lloyd Cooper Consulting Group operates through three specialist subsidiaries — each built
-          to deliver focused, world-class expertise across the key pillars of business growth in East Africa and beyond.
-        </p>
+        <p class="subs-intro">Lloyd Cooper Consulting Group operates through three specialist subsidiaries — each built to deliver focused, world-class expertise across research, capital advisory, and accounting across Africa.</p>
       </div>
 
       <div class="subs-grid">
 
-        <!-- MERIDIAN ADVISORY -->
+        <!-- LLOYD COOPER RESEARCH AND DESIGN GROUP -->
         <div class="sub-card sub-card--meridian">
           <div class="sub-card-bg"
-            style="background-image:url('https://images.pexels.com/photos/8353800/pexels-photo-8353800.jpeg?auto=compress&cs=tinysrgb&w=900')">
+            style="background-image:url('https://images.pexels.com/photos/7413897/pexels-photo-7413897.jpeg?auto=compress&cs=tinysrgb&w=900')">
           </div>
           <div class="sub-card-overlay"></div>
           <div class="sub-card-content">
-            <div class="sub-card-tag">Advisory & Consulting</div>
-            <div class="sub-card-mark">MA</div>
-            <h3 class="sub-card-name">Meridian<br>Advisory</h3>
-            <p class="sub-card-tagline">Strategy · Transformation · Technology</p>
-            <p class="sub-card-desc">Meridian Advisory is Lloyd Cooper's strategic consulting arm — helping
-              organisations navigate transformation, unlock competitive advantage, and embed technology that drives
-              measurable results. We bring Big-4 calibre thinking to the East African context.</p>
+            <div class="sub-card-tag">Research & Design</div>
+            <div class="sub-card-mark">RD</div>
+            <h3 class="sub-card-name">Lloyd Cooper<br>Research & Design</h3>
+            <p class="sub-card-tagline">Research · Analysis · Insight</p>
+            <p class="sub-card-desc">A full-service research and design agency answering questions about markets, consumers, and lifestyles across African countries. With 10 years of primary research experience, we specialise in quantitative and qualitative studies that fuel sustainable, inclusive growth.</p>
             <div class="sub-card-services">
-              <span class="sub-pill">Management Consulting</span>
-              <span class="sub-pill">ERP & Cloud</span>
-              <span class="sub-pill">Data & AI</span>
-              <span class="sub-pill">Cyber Security</span>
-              <span class="sub-pill">Change Management</span>
+              <span class="sub-pill">Market Research</span>
+              <span class="sub-pill">Consumer Insights</span>
+              <span class="sub-pill">Qualitative Studies</span>
+              <span class="sub-pill">Data Collection</span>
+              <span class="sub-pill">Emerging Markets</span>
             </div>
-            <a href="#cta" class="sub-card-link">Engage Meridian <span>→</span></a>
+            <a href="#cta" class="sub-card-link">Engage Research <span>→</span></a>
           </div>
         </div>
 
-        <!-- KORA BUSINESS SERVICES -->
+        <!-- LLOYD COOPER CAPITAL GROUP -->
         <div class="sub-card sub-card--kora">
           <div class="sub-card-bg"
-            style="background-image:url('https://images.pexels.com/photos/6694535/pexels-photo-6694535.jpeg?auto=compress&cs=tinysrgb&w=900')">
+            style="background-image:url('https://images.pexels.com/photos/6801648/pexels-photo-6801648.jpeg?auto=compress&cs=tinysrgb&w=900')">
           </div>
           <div class="sub-card-overlay"></div>
           <div class="sub-card-content">
-            <div class="sub-card-tag">Business Solutions & Outsourcing</div>
-            <div class="sub-card-mark">KB</div>
-            <h3 class="sub-card-name">Kora Business<br>Services</h3>
-            <p class="sub-card-tagline">Outsourcing · Finance · Operations</p>
-            <p class="sub-card-desc">Kora Business Services is the operational backbone for growing businesses across
-              East Africa — delivering expert finance, payroll, and back-office outsourcing so our clients can focus
-              entirely on growth. Rooted in the region, built for scale.</p>
+            <div class="sub-card-tag">Capital Advisory</div>
+            <div class="sub-card-mark">CG</div>
+            <h3 class="sub-card-name">Lloyd Cooper<br>Capital Group</h3>
+            <p class="sub-card-tagline">Capital · Growth · Partnerships</p>
+            <p class="sub-card-desc">One of the region's leading capital advisory firms, connecting companies with the capital they need to grow. We are the partner of choice for start-ups, founder-led companies, turnarounds, and carve-outs — creating lasting impact for investors and communities alike.</p>
             <div class="sub-card-services">
-              <span class="sub-pill">Finance Outsourcing</span>
-              <span class="sub-pill">Payroll Management</span>
-              <span class="sub-pill">CFO-as-a-Service</span>
-              <span class="sub-pill">HR Operations</span>
-              <span class="sub-pill">Compliance Support</span>
+              <span class="sub-pill">Capital Advisory</span>
+              <span class="sub-pill">Growth Financing</span>
+              <span class="sub-pill">Start-up Advisory</span>
+              <span class="sub-pill">Turnarounds</span>
+              <span class="sub-pill">Investor Relations</span>
             </div>
-            <a href="#cta" class="sub-card-link">Engage Kora <span>→</span></a>
+            <a href="#cta" class="sub-card-link">Engage Capital <span>→</span></a>
           </div>
         </div>
 
-        <!-- AURUM CAPITAL PARTNERS -->
+        <!-- DM AND ASSOCIATES CPA -->
         <div class="sub-card sub-card--aurum">
           <div class="sub-card-bg"
-            style="background-image:url('https://images.pexels.com/photos/6770610/pexels-photo-6770610.jpeg?auto=compress&cs=tinysrgb&w=900')">
+            style="background-image:url('https://images.pexels.com/photos/5668473/pexels-photo-5668473.jpeg?auto=compress&cs=tinysrgb&w=900')">
           </div>
           <div class="sub-card-overlay"></div>
           <div class="sub-card-content">
-            <div class="sub-card-tag">Capital & Wealth</div>
-            <div class="sub-card-mark">AC</div>
-            <h3 class="sub-card-name">Aurum Capital<br>Partners</h3>
-            <p class="sub-card-tagline">Capital · Wealth · Transactions</p>
-            <p class="sub-card-desc">Aurum Capital Partners is Lloyd Cooper's premium financial advisory and investment
-              arm — guiding high-net-worth individuals, family offices, and corporates through wealth structuring, M&A
-              transactions, and capital markets across the continent.</p>
+            <div class="sub-card-tag">Accounting & Consulting</div>
+            <div class="sub-card-mark">DM</div>
+            <h3 class="sub-card-name">DM & Associates<br>CPA</h3>
+            <p class="sub-card-tagline">Audit · Tax · Advisory</p>
+            <p class="sub-card-desc">A leading independent accounting and consulting firm offering comprehensive audit, tax, and advisory services across East Africa. Our highly experienced professionals combine deep local expertise with global reach to deliver tailored solutions for businesses, non-profits, and individuals.</p>
             <div class="sub-card-services">
-              <span class="sub-pill">Corporate Finance</span>
-              <span class="sub-pill">M&A Advisory</span>
-              <span class="sub-pill">Wealth Management</span>
-              <span class="sub-pill">Investment Advisory</span>
-              <span class="sub-pill">Due Diligence</span>
+              <span class="sub-pill">Audit & Assurance</span>
+              <span class="sub-pill">Tax Advisory</span>
+              <span class="sub-pill">Business Consulting</span>
+              <span class="sub-pill">Financial Advisory</span>
+              <span class="sub-pill">Non-Profit Services</span>
             </div>
-            <a href="#cta" class="sub-card-link">Engage Aurum <span>→</span></a>
+            <a href="#cta" class="sub-card-link">Engage DM & Associates <span>→</span></a>
           </div>
         </div>
 
